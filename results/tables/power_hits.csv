@@ -1,0 +1,6 @@
+trait,R2_exp_pct,OR,power_nominal,power_studywide
+HLA DR+ Natural Killer %Natural Killer,35,0.944,0.963,0.407
+CD62L- CD86+ myeloid Dendritic Cell Absolute Count,46.5,1.033,0.684,0.062
+CD45 on granulocyte,12,0.944,0.584,0.035
+CD45RA on CD39+ resting CD4 regulatory T cell,8.2,0.943,0.449,0.016
+CD25++ CD45RA+ CD4 not regulatory T cell %T cell,25.6,0.98,0.194,0.002

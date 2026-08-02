@@ -1,0 +1,4 @@
+Outcome,N instruments,IVW OR,IVW 95%CI lower,IVW 95%CI upper,IVW P,Weighted-median OR,Weighted-median P,MR-Egger OR,MR-Egger intercept P,Cochran Q,Q P
+Atrial fibrillation,232,0.981,0.906,1.063,0.646,0.945,0.261,0.979,0.968,601.6,7.85e-35
+Atrioventricular block,232,1.138,1.019,1.271,0.022,1.1,0.268,1.078,0.605,299.4,0.00163
+Cardiac conduction disorders,232,1.097,1.014,1.187,0.0209,1.086,0.207,1.044,0.5,270.3,0.0388

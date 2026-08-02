@@ -1,0 +1,5 @@
+Outcome,Instrument threshold,Analyzable phenotypes,Median instruments,"Single-variant (Wald only), n","Single-variant (Wald only), %","Cochran Q / MR-Egger computable (>=3 IVs), n","Cochran Q / MR-Egger computable (>=3 IVs), %","MR-PRESSO computable (>=4 IVs), n","MR-PRESSO computable (>=4 IVs), %","Q computed, n","Q significant at P<.05, n","Q significant at P<.05, %","Q significant, modified weights, n","Q significant, modified weights, %",Median Q/df
+CONDUCTIO,P<1e-5,731,22,0,0,731,100,728,99.6,731,75,10.3,22,3,1.066
+CONDUCTIO,P<5e-8,607,2,161,26.5,299,49.3,194,32,299,40,13.4,33,11,0.971
+AVBLOCK,P<1e-5,731,22,0,0,731,100,728,99.6,731,62,8.5,19,2.6,1.052
+AVBLOCK,P<5e-8,607,2,161,26.5,299,49.3,194,32,299,33,11,24,8,0.932

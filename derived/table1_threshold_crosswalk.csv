@@ -1,0 +1,6 @@
+outcome,id,trait,gws_nIV,gws_method,gws_OR,gws_OR_L,gws_OR_U,gws_p,gws_FDR,main_nIV,main_rank,main_p,main_FDR
+Cardiac conduction disorders,ebi-a-GCST90001554,Effector Memory CD8+ T cell Absolute Count,2.0,IVW,1.131,1.067,1.198,3.0600159465705e-05,0.0186,24.0,353.0,0.499594695270237,0.9761
+Cardiac conduction disorders,ebi-a-GCST90001689,CD28+ CD45RA+ CD8+ T cell %CD8+ T cell,1.0,Wald,0.832,0.757,0.916,0.0001655378937635,0.0366,41.0,509.0,0.697743166640962,0.9761
+Cardiac conduction disorders,ebi-a-GCST90001500,Activated & resting CD4 regulatory T cell %CD4+ T cell,3.0,IVW,0.913,0.87,0.958,0.0001809208240583,0.0366,27.0,269.0,0.367188120781754,0.9761
+Cardiac conduction disorders,ebi-a-GCST90001480,Resting CD4 regulatory T cell Absolute Count,4.0,IVW,0.912,0.868,0.959,0.0002868928333329,0.0406,25.0,88.0,0.119657133942437,0.9675
+Cardiac conduction disorders,ebi-a-GCST90001556,Effector Memory CD8+ T cell %T cell,2.0,IVW,1.113,1.05,1.18,0.0003345225122512,0.0406,15.0,109.0,0.155609288667585,0.9675

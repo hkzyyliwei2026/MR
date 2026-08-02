@@ -1,0 +1,3 @@
+Outcome,Phenotypes analyzable,Median instruments,Nominally significant,Expected nominal,FDR significant,Smallest FDR,Median OR upper 95% CI
+I9_LBBB,731,22,37,36.6,0,0.1365,1.0629
+I9_RBBB,731,22,36,36.6,0,0.1702,1.0891
