@@ -1,0 +1,28 @@
+== Exposure: lymphocyte count, GWAS Catalog GCST90002316 curated associations ==
+   curated associations retrieved: 465
+   usable variants with P < 5e-08: 433
+   after LD clumping (r2 < 0.001, 10000 kb): 251
+   with reference-panel alleles resolved: 251
+
+== Outcome: FinnGen R11 AVBLOCK ==
+   instruments present in outcome: 239
+   after harmonisation, palindrome and F > 10 filters: 232 (min F 39, median F 85)
+   IVW (random)      OR 1.138 (95% CI 1.019-1.271), P = 0.02197
+   Weighted median   OR 1.100, P = 0.2685
+   MR-Egger          OR 1.078, P = 0.5252
+   MR-Egger intercept 0.001725, P = 0.6049
+   Cochran's Q 299.4 (df 231), P = 0.001632
+
+== Outcome: FinnGen R11 CONDUCTIO ==
+   instruments present in outcome: 239
+   after harmonisation, palindrome and F > 10 filters: 232 (min F 39, median F 85)
+   IVW (random)      OR 1.097 (95% CI 1.014-1.187), P = 0.02092
+   Weighted median   OR 1.086, P = 0.2072
+   MR-Egger          OR 1.044, P = 0.6132
+   MR-Egger intercept 0.001601, P = 0.4997
+   Cochran's Q 270.3 (df 231), P = 0.03882
+
+== Comparison with the original report ==
+   Chen Y et al 2023 (FinnGen release 2): OR 1.460 (1.110-1.930), P = .0065
+   This analysis (FinnGen release 11):     OR 1.138 (1.019-1.271), P = 0.02197
+   Difference between estimates: Z = 1.64, P = 0.101

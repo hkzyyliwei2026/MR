@@ -1,0 +1,6 @@
+trait,nIV,method,OR,OR_L,OR_U,p,note
+CD25++ CD45RA+ CD4 not regulatory T cell %T cell,6,IVW,1.055,0.754,1.476,0.757,ok
+CD45 on granulocyte,6,IVW,0.988,0.782,1.247,0.916,ok
+CD45RA on CD39+ resting CD4 regulatory T cell,4,IVW,0.921,0.692,1.225,0.571,ok
+CD62L- CD86+ myeloid Dendritic Cell Absolute Count,6,IVW,1.012,0.805,1.271,0.921,ok
+HLA DR+ Natural Killer %Natural Killer,6,IVW,1.063,0.772,1.465,0.708,ok

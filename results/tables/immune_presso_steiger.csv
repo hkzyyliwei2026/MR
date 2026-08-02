@@ -1,0 +1,6 @@
+trait,nIV,meanF,R2_exp_pct,R2_out_pct,steiger_prop_correct,steiger_p,steiger_dir,presso_global_p,presso_n_outlier,OR_raw,OR_adj
+CD62L- CD86+ myeloid Dendritic Cell Absolute Count,19,85.4,46.49,0.2498,1,0,exposure->outcome,0.389,,1.033,
+HLA DR+ Natural Killer %Natural Killer,23,50.8,34.95,0.2633,1,1.11253692925425e-308,exposure->outcome,0.92,,0.944,
+CD25++ CD45RA+ CD4 not regulatory T cell %T cell,27,28.4,25.65,0.153,1,2e-219,exposure->outcome,0.881,,0.98,
+CD45 on granulocyte,15,22.5,11.99,0.4239,1,9.2e-73,exposure->outcome,0.431,,0.944,
+CD45RA on CD39+ resting CD4 regulatory T cell,8,24.9,8.21,0.1001,1,6.6e-58,exposure->outcome,0.369,,0.943,

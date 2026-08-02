@@ -1,0 +1,5 @@
+Instrument_threshold,Analysis,Outcome,IV_records_all,IV_records_MAF_ge_1pct,IV_records_MAF_missing_excluded,Phenotypes_all,Phenotypes_MAF_ge_1pct,Nominal_all,Nominal_MAF_ge_1pct,Expected_nominal_MAF_ge_1pct,FDR_significant_all,FDR_significant_MAF_ge_1pct,Smallest_FDR_all,Smallest_FDR_MAF_ge_1pct
+P < 1 x 10-5,Primary (instrument availability),CONDUCTIO,18728,14348,107,731,730,33,30,37,0,0,.323,.704
+P < 1 x 10-5,Primary (instrument availability),AVBLOCK,18728,14348,107,731,730,33,32,37,0,0,.111,.988
+P < 5 x 10-8,Genome-wide,CONDUCTIO,2803,1919,27,607,589,58,40,29,5,0,.019,.588
+P < 5 x 10-8,Genome-wide,AVBLOCK,2803,1919,27,607,589,47,35,29,0,0,.135,.232
