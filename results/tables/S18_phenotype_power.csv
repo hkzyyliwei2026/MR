@@ -13,7 +13,7 @@ CONDUCTIO,CD33 on Immature Myeloid-Derived Suppressor Cells,GCST90001955,23,82.6
 CONDUCTIO,CD127 on CD8+ T cell,GCST90001927,25,18.77,0.192,0.702,1.000,1.000,0.903,1.107,""
 CONDUCTIO,CD28+ CD45RA+ CD8+ T cell %CD8+ T cell,GCST90001689,41,13.50,0.266,0.439,1.000,1.000,0.887,1.128,""
 CONDUCTIO,CD39+ CD4+ T cell Absolute Count,GCST90001660,29,38.04,0.341,0.993,1.000,1.000,0.931,1.074,""
-CONDUCTIO,CD33 on CD33dim HLA DR+ CD11b-,GCST90001949,22,not interpretable,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD33 on CD33dim HLA DR+ CD11b-,GCST90001949,22,85.50,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,Central Memory CD8+ T cell %CD8+ T cell,GCST90001549,31,21.15,0.195,0.790,1.000,1.000,0.908,1.101,""
 CONDUCTIO,CD64 on CD14- CD16+ monocyte,GCST90001990,20,16.74,0.147,0.610,1.000,1.000,0.898,1.114,""
 CONDUCTIO,CD33 on basophil,GCST90001954,22,82.83,0.968,1.000,1.000,1.000,0.953,1.050,""
@@ -37,7 +37,7 @@ CONDUCTIO,CD39+ activated CD4 regulatory T cell Absolute Count,GCST90001489,30,6
 CONDUCTIO,FSC-A on Natural Killer,GCST90001969,18,17.23,0.156,0.634,1.000,1.000,0.899,1.112,""
 CONDUCTIO,SSC-A on Natural Killer,GCST90002076,23,21.57,0.189,0.804,1.000,1.000,0.909,1.100,""
 CONDUCTIO,SSC-A on Natural Killer T,GCST90002084,20,16.78,0.147,0.612,1.000,1.000,0.898,1.114,""
-CONDUCTIO,CD45RA- CD28- CD8+ T cell Absolute Count,GCST90001695,350,not interpretable,3.161,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+CONDUCTIO,CD45RA- CD28- CD8+ T cell Absolute Count,GCST90001695,350,3630676.40,3.161,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 CONDUCTIO,BAFF-R on IgD- CD38+ B cell,GCST90001713,15,14.85,0.135,0.512,1.000,1.000,0.892,1.121,""
 CONDUCTIO,CD14 on CD14+ CD16+ monocyte,GCST90001983,15,10.76,0.099,0.286,0.995,1.000,0.874,1.144,""
 CONDUCTIO,CD20 on IgD+ CD24- B cell,GCST90001747,25,20.59,0.184,0.771,1.000,1.000,0.907,1.102,""
@@ -69,7 +69,7 @@ CONDUCTIO,Activated CD4 regulatory T cell %CD4+ T cell,GCST90001488,19,13.64,0.1
 CONDUCTIO,Natural Killer %lymphocyte,GCST90001647,27,19.61,0.196,0.736,1.000,1.000,0.905,1.105,""
 CONDUCTIO,Unswitched memory B cell %lymphocyte,GCST90001432,22,16.30,0.150,0.588,1.000,1.000,0.896,1.116,""
 CONDUCTIO,CD4 on Effector Memory CD4+ T cell,GCST90002025,20,21.19,0.191,0.792,1.000,1.000,0.909,1.101,""
-CONDUCTIO,CD45RA+ CD28- CD8+ T cell Absolute Count,GCST90001698,719,not interpretable,10.313,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+CONDUCTIO,CD45RA+ CD28- CD8+ T cell Absolute Count,GCST90001698,719,20764217.40,10.313,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 CONDUCTIO,CD62L on monocyte,GCST90001834,25,28.09,0.266,0.938,1.000,1.000,0.920,1.087,""
 CONDUCTIO,CX3CR1 on CD14- CD16+ monocyte,GCST90002012,18,13.85,0.129,0.458,1.000,1.000,0.888,1.126,""
 CONDUCTIO,CD4 on CD39+ activated CD4 regulatory T cell,GCST90002067,23,22.24,0.194,0.824,1.000,1.000,0.911,1.098,""
@@ -82,11 +82,11 @@ CONDUCTIO,CD28- CD127- CD25++ CD8+ T cell %T cell,GCST90001673,18,13.10,0.125,0.
 CONDUCTIO,CD80 on granulocyte,GCST90002040,33,31.93,0.285,0.972,1.000,1.000,0.925,1.081,""
 CONDUCTIO,HLA DR+ CD8+ T cell Absolute Count,GCST90001627,34,29.83,0.279,0.956,1.000,1.000,0.922,1.084,""
 CONDUCTIO,HLA DR on CD14+ CD16+ monocyte,GCST90002007,19,36.97,0.288,0.991,1.000,1.000,0.930,1.075,""
-CONDUCTIO,BAFF-R on IgD+ CD38- naive B cell,GCST90001706,28,not interpretable,1.044,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,BAFF-R on IgD+ CD38- naive B cell,GCST90001706,28,89.83,1.044,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,Transitional B cell %lymphocyte,GCST90001578,26,17.18,0.157,0.631,1.000,1.000,0.899,1.112,""
 CONDUCTIO,CD45 on CD8+ T cell,GCST90001917,26,17.03,0.180,0.624,1.000,1.000,0.899,1.113,""
 CONDUCTIO,CD19 on memory B cell,GCST90001736,24,17.70,0.154,0.655,1.000,1.000,0.900,1.111,""
-CONDUCTIO,CD33 on CD14+ monocyte,GCST90001946,21,not interpretable,1.074,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD33 on CD14+ monocyte,GCST90001946,21,82.94,1.074,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,BAFF-R on IgD- CD24- B cell,GCST90001710,22,67.05,0.733,1.000,1.000,1.000,0.948,1.055,""
 CONDUCTIO,FSC-A on lymphocyte,GCST90001971,17,11.27,0.121,0.314,0.997,1.000,0.877,1.141,""
 CONDUCTIO,FSC-A on T cell,GCST90001972,22,14.53,0.152,0.495,1.000,1.000,0.891,1.123,""
@@ -153,7 +153,7 @@ CONDUCTIO,HLA DR+ Natural Killer  %CD3- lymphocyte,GCST90001650,23,35.09,0.343,0
 CONDUCTIO,IgD+ CD38+ B cell Absolute Count,GCST90001392,29,20.51,0.181,0.769,1.000,1.000,0.907,1.102,""
 CONDUCTIO,IgD- CD38+ B cell %B cell,GCST90001410,18,11.88,0.112,0.348,0.998,1.000,0.880,1.137,""
 CONDUCTIO,BAFF-R on IgD+ CD38+ B cell,GCST90001708,27,73.40,0.793,1.000,1.000,1.000,0.950,1.053,""
-CONDUCTIO,CD45RA+ CD28- CD8+ T cell %T cell,GCST90001700,206,not interpretable,1.802,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+CONDUCTIO,CD45RA+ CD28- CD8+ T cell %T cell,GCST90001700,206,6307.04,1.802,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 CONDUCTIO,CD8+ Natural Killer T %T cell,GCST90001631,27,20.03,0.181,0.751,1.000,1.000,0.906,1.104,""
 CONDUCTIO,PDL-1 on CD14+ CD16- monocyte,GCST90001993,15,9.90,0.091,0.240,0.989,1.000,0.869,1.151,""
 CONDUCTIO,CD64 on monocyte,GCST90002006,29,45.08,0.397,0.999,1.000,1.000,0.936,1.068,""
@@ -205,10 +205,10 @@ CONDUCTIO,FSC-A on monocyte,GCST90001965,19,17.54,0.156,0.648,1.000,1.000,0.900,
 CONDUCTIO,CD33+ HLA DR+ CD14- %CD33+ HLA DR+,GCST90001519,19,25.63,0.246,0.902,1.000,1.000,0.916,1.091,""
 CONDUCTIO,CD19 on IgD+ CD38- unswitched memory B cell,GCST90001728,22,28.88,0.288,0.947,1.000,1.000,0.921,1.086,""
 CONDUCTIO,CD25 on IgD+ CD24- B cell,GCST90001779,24,24.92,0.217,0.888,1.000,1.000,0.915,1.092,""
-CONDUCTIO,CD45RA- CD28- CD8+ T cell %T cell,GCST90001697,180,not interpretable,1.442,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+CONDUCTIO,CD45RA- CD28- CD8+ T cell %T cell,GCST90001697,180,3728.00,1.442,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 CONDUCTIO,CD20 on IgD- CD38- B cell,GCST90001755,27,21.64,0.187,0.806,1.000,1.000,0.909,1.100,""
 CONDUCTIO,CD20 on switched memory B cell,GCST90001761,31,27.17,0.236,0.926,1.000,1.000,0.919,1.088,""
-CONDUCTIO,CD39 on CD39+ secreting CD4 regulatory T cell,GCST90002031,23,not interpretable,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD39 on CD39+ secreting CD4 regulatory T cell,GCST90002031,23,81.32,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,CD24+ CD27+ B cell %B cell,GCST90001417,26,17.98,0.161,0.668,1.000,1.000,0.901,1.110,""
 CONDUCTIO,CD4 on activated CD4 regulatory T cell,GCST90002066,24,21.07,0.191,0.788,1.000,1.000,0.908,1.101,""
 CONDUCTIO,CD4 on activated & secreting CD4 regulatory T cell,GCST90002070,32,27.80,0.247,0.934,1.000,1.000,0.920,1.087,""
@@ -321,7 +321,7 @@ CONDUCTIO,SSC-A on myeloid Dendritic Cell,GCST90002071,18,18.52,0.163,0.691,1.00
 CONDUCTIO,CD3 on Terminally Differentiated CD8+ T cell,GCST90001840,23,20.23,0.184,0.759,1.000,1.000,0.907,1.103,""
 CONDUCTIO,CD66b on Granulocytic Myeloid-Derived Suppressor Cells,GCST90001837,22,38.23,0.381,0.993,1.000,1.000,0.931,1.074,""
 CONDUCTIO,Central Memory CD8+ T cell %T cell,GCST90001550,22,14.48,0.137,0.492,1.000,1.000,0.890,1.123,""
-CONDUCTIO,CD33 on CD33dim HLA DR+ CD11b+,GCST90001948,22,not interpretable,1.119,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD33 on CD33dim HLA DR+ CD11b+,GCST90001948,22,86.97,1.119,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,IgD on unswitched memory B cell,GCST90001826,22,37.16,0.258,0.991,1.000,1.000,0.930,1.075,""
 CONDUCTIO,CD19 on naive-mature B cell,GCST90001737,29,19.71,0.177,0.740,1.000,1.000,0.905,1.105,""
 CONDUCTIO,Terminally Differentiated CD4-CD8- T cell %T cell,GCST90001574,24,18.72,0.164,0.700,1.000,1.000,0.903,1.107,""
@@ -368,7 +368,7 @@ CONDUCTIO,CD25 on CD39+ CD4+ T cell,GCST90001961,23,51.74,0.538,1.000,1.000,1.00
 CONDUCTIO,CD20 on IgD+ CD38+ B cell,GCST90001751,26,22.55,0.197,0.832,1.000,1.000,0.911,1.097,""
 CONDUCTIO,CD14+ CD16+ monocyte Absolute Count,GCST90001580,20,29.09,0.276,0.949,1.000,1.000,0.921,1.085,""
 CONDUCTIO,CD14+ CD16+ monocyte %monocyte,GCST90001585,25,36.28,0.340,0.989,1.000,1.000,0.929,1.076,""
-CONDUCTIO,CD45RA- CD28- CD8+ T cell %CD8+ T cell,GCST90001696,50,not interpretable,0.388,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
+CONDUCTIO,CD45RA- CD28- CD8+ T cell %CD8+ T cell,GCST90001696,50,6169.11,0.388,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
 CONDUCTIO,CD8 on CD39+ CD8+ T cell,GCST90002121,25,24.87,0.226,0.887,1.000,1.000,0.915,1.093,""
 CONDUCTIO,CCR2 on CD62L+ myeloid Dendritic Cell,GCST90002014,14,19.17,0.170,0.719,1.000,1.000,0.904,1.106,""
 CONDUCTIO,IgD on IgD+ CD24- B cell,GCST90001821,29,44.49,0.329,0.998,1.000,1.000,0.936,1.068,""
@@ -409,11 +409,11 @@ CONDUCTIO,CD27 on IgD- CD38- B cell,GCST90001802,31,38.92,0.348,0.994,1.000,1.00
 CONDUCTIO,CD64 on CD14+ CD16+ monocyte,GCST90002011,12,8.61,0.077,0.177,0.969,1.000,0.860,1.162,""
 CONDUCTIO,Switched memory B cell %B cell,GCST90001402,13,9.79,0.081,0.235,0.988,1.000,0.868,1.152,""
 CONDUCTIO,IgD- CD38- B cell %B cell,GCST90001445,12,8.57,0.073,0.175,0.968,1.000,0.860,1.163,""
-CONDUCTIO,CD33 on CD33+ HLA DR+ CD14dim,GCST90001947,27,not interpretable,1.146,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD33 on CD33+ HLA DR+ CD14dim,GCST90001947,27,93.73,1.146,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,FSC-A on HLA DR+ Natural Killer,GCST90001970,20,27.73,0.261,0.934,1.000,1.000,0.920,1.087,""
 CONDUCTIO,HLA DR on CD33dim HLA DR+ CD11b-,GCST90002111,18,41.80,0.389,0.997,1.000,1.000,0.934,1.071,""
-CONDUCTIO,CD33 on CD33+ HLA DR+,GCST90001956,23,not interpretable,1.112,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
-CONDUCTIO,CD33 on CD33+ HLA DR+ CD14-,GCST90001957,21,not interpretable,1.095,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD33 on CD33+ HLA DR+,GCST90001956,23,88.56,1.112,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+CONDUCTIO,CD33 on CD33+ HLA DR+ CD14-,GCST90001957,21,86.49,1.095,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 CONDUCTIO,CD127 on T cell,GCST90001922,18,14.17,0.134,0.475,1.000,1.000,0.889,1.124,""
 CONDUCTIO,CD8+ and CD8dim T cell %leukocyte,GCST90001614,15,11.89,0.096,0.348,0.998,1.000,0.880,1.137,""
 CONDUCTIO,CD45 on granulocyte,GCST90001913,15,11.99,0.108,0.354,0.998,1.000,0.880,1.136,""
@@ -692,7 +692,7 @@ CONDUCTIO,CD4 on CD39+ resting CD4 regulatory T cell,GCST90002065,15,12.62,0.126
 CONDUCTIO,IgD on IgD+ B cell,GCST90001827,21,33.02,0.233,0.977,1.000,1.000,0.926,1.080,""
 CONDUCTIO,Transitional B cell %B cell,GCST90001576,15,10.04,0.089,0.248,0.990,1.000,0.870,1.149,""
 CONDUCTIO,Leukocyte Absolute Count,GCST90001600,11,7.38,0.068,0.124,0.923,1.000,0.850,1.176,""
-CONDUCTIO,CD45RA+ CD28- CD8+ T cell %CD8+ T cell,GCST90001699,31,not interpretable,0.210,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
+CONDUCTIO,CD45RA+ CD28- CD8+ T cell %CD8+ T cell,GCST90001699,31,4172.60,0.210,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
 CONDUCTIO,CD20- CD38- B cell %B cell,GCST90001422,23,14.63,0.137,0.501,1.000,1.000,0.891,1.122,""
 CONDUCTIO,CCR2 on CD14- CD16-,GCST90002003,17,12.35,0.114,0.374,0.999,1.000,0.882,1.134,""
 CONDUCTIO,Basophil %CD33dim HLA DR- CD66b-,GCST90001533,20,33.65,0.346,0.980,1.000,1.000,0.927,1.079,""
@@ -744,7 +744,7 @@ AVBLOCK,CD33 on Immature Myeloid-Derived Suppressor Cells,GCST90001955,23,82.60,
 AVBLOCK,CD127 on CD8+ T cell,GCST90001927,25,18.77,0.192,0.282,0.994,1.000,0.874,1.145,""
 AVBLOCK,CD28+ CD45RA+ CD8+ T cell %CD8+ T cell,GCST90001689,41,13.50,0.266,0.137,0.938,1.000,0.853,1.173,""
 AVBLOCK,CD39+ CD4+ T cell Absolute Count,GCST90001660,29,38.04,0.341,0.806,1.000,1.000,0.910,1.100,""
-AVBLOCK,CD33 on CD33dim HLA DR+ CD11b-,GCST90001949,22,not interpretable,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD33 on CD33dim HLA DR+ CD11b-,GCST90001949,22,85.50,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,Central Memory CD8+ T cell %CD8+ T cell,GCST90001549,31,21.15,0.195,0.356,0.998,1.000,0.881,1.136,""
 AVBLOCK,CD64 on CD14- CD16+ monocyte,GCST90001990,20,16.74,0.147,0.222,0.985,1.000,0.867,1.154,""
 AVBLOCK,CD33 on basophil,GCST90001954,22,82.83,0.968,0.999,1.000,1.000,0.938,1.066,""
@@ -768,7 +768,7 @@ AVBLOCK,CD39+ activated CD4 regulatory T cell Absolute Count,GCST90001489,30,68.
 AVBLOCK,FSC-A on Natural Killer,GCST90001969,18,17.23,0.156,0.236,0.988,1.000,0.869,1.151,""
 AVBLOCK,SSC-A on Natural Killer,GCST90002076,23,21.57,0.189,0.370,0.999,1.000,0.882,1.134,""
 AVBLOCK,SSC-A on Natural Killer T,GCST90002084,20,16.78,0.147,0.223,0.985,1.000,0.867,1.154,""
-AVBLOCK,CD45RA- CD28- CD8+ T cell Absolute Count,GCST90001695,350,not interpretable,3.161,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+AVBLOCK,CD45RA- CD28- CD8+ T cell Absolute Count,GCST90001695,350,3630676.40,3.161,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 AVBLOCK,BAFF-R on IgD- CD38+ B cell,GCST90001713,15,14.85,0.135,0.170,0.965,1.000,0.859,1.164,""
 AVBLOCK,CD14 on CD14+ CD16+ monocyte,GCST90001983,15,10.76,0.099,0.080,0.829,0.999,0.837,1.195,""
 AVBLOCK,CD20 on IgD+ CD24- B cell,GCST90001747,25,20.59,0.184,0.339,0.998,1.000,0.879,1.138,""
@@ -800,7 +800,7 @@ AVBLOCK,Activated CD4 regulatory T cell %CD4+ T cell,GCST90001488,19,13.64,0.123
 AVBLOCK,Natural Killer %lymphocyte,GCST90001647,27,19.61,0.196,0.308,0.996,1.000,0.876,1.141,""
 AVBLOCK,Unswitched memory B cell %lymphocyte,GCST90001432,22,16.30,0.150,0.209,0.982,1.000,0.865,1.156,""
 AVBLOCK,CD4 on Effector Memory CD4+ T cell,GCST90002025,20,21.19,0.191,0.358,0.998,1.000,0.881,1.136,""
-AVBLOCK,CD45RA+ CD28- CD8+ T cell Absolute Count,GCST90001698,719,not interpretable,10.313,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+AVBLOCK,CD45RA+ CD28- CD8+ T cell Absolute Count,GCST90001698,719,20764217.40,10.313,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 AVBLOCK,CD62L on monocyte,GCST90001834,25,28.09,0.266,0.573,1.000,1.000,0.895,1.117,""
 AVBLOCK,CX3CR1 on CD14- CD16+ monocyte,GCST90002012,18,13.85,0.129,0.145,0.947,1.000,0.855,1.170,""
 AVBLOCK,CD4 on CD39+ activated CD4 regulatory T cell,GCST90002067,23,22.24,0.194,0.391,0.999,1.000,0.883,1.132,""
@@ -813,11 +813,11 @@ AVBLOCK,CD28- CD127- CD25++ CD8+ T cell %T cell,GCST90001673,18,13.10,0.125,0.12
 AVBLOCK,CD80 on granulocyte,GCST90002040,33,31.93,0.285,0.677,1.000,1.000,0.902,1.109,""
 AVBLOCK,HLA DR+ CD8+ T cell Absolute Count,GCST90001627,34,29.83,0.279,0.622,1.000,1.000,0.898,1.113,""
 AVBLOCK,HLA DR on CD14+ CD16+ monocyte,GCST90002007,19,36.97,0.288,0.787,1.000,1.000,0.908,1.101,""
-AVBLOCK,BAFF-R on IgD+ CD38- naive B cell,GCST90001706,28,not interpretable,1.044,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,BAFF-R on IgD+ CD38- naive B cell,GCST90001706,28,89.83,1.044,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,Transitional B cell %lymphocyte,GCST90001578,26,17.18,0.157,0.234,0.988,1.000,0.868,1.152,""
 AVBLOCK,CD45 on CD8+ T cell,GCST90001917,26,17.03,0.180,0.230,0.987,1.000,0.868,1.152,""
 AVBLOCK,CD19 on memory B cell,GCST90001736,24,17.70,0.154,0.250,0.990,1.000,0.870,1.149,""
-AVBLOCK,CD33 on CD14+ monocyte,GCST90001946,21,not interpretable,1.074,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD33 on CD14+ monocyte,GCST90001946,21,82.94,1.074,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,BAFF-R on IgD- CD24- B cell,GCST90001710,22,67.05,0.733,0.993,1.000,1.000,0.931,1.074,""
 AVBLOCK,FSC-A on lymphocyte,GCST90001971,17,11.27,0.121,0.089,0.856,0.999,0.840,1.190,""
 AVBLOCK,FSC-A on T cell,GCST90001972,22,14.53,0.152,0.162,0.960,1.000,0.858,1.166,""
@@ -884,7 +884,7 @@ AVBLOCK,HLA DR+ Natural Killer  %CD3- lymphocyte,GCST90001650,23,35.09,0.343,0.7
 AVBLOCK,IgD+ CD38+ B cell Absolute Count,GCST90001392,29,20.51,0.181,0.336,0.998,1.000,0.879,1.138,""
 AVBLOCK,IgD- CD38+ B cell %B cell,GCST90001410,18,11.88,0.112,0.101,0.885,1.000,0.844,1.185,""
 AVBLOCK,BAFF-R on IgD+ CD38+ B cell,GCST90001708,27,73.40,0.793,0.997,1.000,1.000,0.934,1.071,""
-AVBLOCK,CD45RA+ CD28- CD8+ T cell %T cell,GCST90001700,206,not interpretable,1.802,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+AVBLOCK,CD45RA+ CD28- CD8+ T cell %T cell,GCST90001700,206,6307.04,1.802,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 AVBLOCK,CD8+ Natural Killer T %T cell,GCST90001631,27,20.03,0.181,0.321,0.997,1.000,0.877,1.140,""
 AVBLOCK,PDL-1 on CD14+ CD16- monocyte,GCST90001993,15,9.90,0.091,0.066,0.772,0.998,0.830,1.204,""
 AVBLOCK,CD64 on monocyte,GCST90002006,29,45.08,0.397,0.902,1.000,1.000,0.917,1.091,""
@@ -936,10 +936,10 @@ AVBLOCK,FSC-A on monocyte,GCST90001965,19,17.54,0.156,0.245,0.990,1.000,0.870,1.
 AVBLOCK,CD33+ HLA DR+ CD14- %CD33+ HLA DR+,GCST90001519,19,25.63,0.246,0.499,1.000,1.000,0.891,1.123,""
 AVBLOCK,CD19 on IgD+ CD38- unswitched memory B cell,GCST90001728,22,28.88,0.288,0.595,1.000,1.000,0.897,1.115,""
 AVBLOCK,CD25 on IgD+ CD24- B cell,GCST90001779,24,24.92,0.217,0.476,1.000,1.000,0.889,1.124,""
-AVBLOCK,CD45RA- CD28- CD8+ T cell %T cell,GCST90001697,180,not interpretable,1.442,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
+AVBLOCK,CD45RA- CD28- CD8+ T cell %T cell,GCST90001697,180,3728.00,1.442,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible on both aggregate R2 (>1) and sum(F)/n (>1)
 AVBLOCK,CD20 on IgD- CD38- B cell,GCST90001755,27,21.64,0.187,0.372,0.999,1.000,0.882,1.134,""
 AVBLOCK,CD20 on switched memory B cell,GCST90001761,31,27.17,0.236,0.546,1.000,1.000,0.894,1.119,""
-AVBLOCK,CD39 on CD39+ secreting CD4 regulatory T cell,GCST90002031,23,not interpretable,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD39 on CD39+ secreting CD4 regulatory T cell,GCST90002031,23,81.32,1.087,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,CD24+ CD27+ B cell %B cell,GCST90001417,26,17.98,0.161,0.258,0.992,1.000,0.871,1.148,""
 AVBLOCK,CD4 on activated CD4 regulatory T cell,GCST90002066,24,21.07,0.191,0.354,0.998,1.000,0.880,1.136,""
 AVBLOCK,CD4 on activated & secreting CD4 regulatory T cell,GCST90002070,32,27.80,0.247,0.564,1.000,1.000,0.895,1.117,""
@@ -1052,7 +1052,7 @@ AVBLOCK,SSC-A on myeloid Dendritic Cell,GCST90002071,18,18.52,0.163,0.274,0.994,
 AVBLOCK,CD3 on Terminally Differentiated CD8+ T cell,GCST90001840,23,20.23,0.184,0.327,0.997,1.000,0.878,1.139,""
 AVBLOCK,CD66b on Granulocytic Myeloid-Derived Suppressor Cells,GCST90001837,22,38.23,0.381,0.810,1.000,1.000,0.910,1.099,""
 AVBLOCK,Central Memory CD8+ T cell %T cell,GCST90001550,22,14.48,0.137,0.161,0.959,1.000,0.857,1.166,""
-AVBLOCK,CD33 on CD33dim HLA DR+ CD11b+,GCST90001948,22,not interpretable,1.119,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD33 on CD33dim HLA DR+ CD11b+,GCST90001948,22,86.97,1.119,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,IgD on unswitched memory B cell,GCST90001826,22,37.16,0.258,0.791,1.000,1.000,0.908,1.101,""
 AVBLOCK,CD19 on naive-mature B cell,GCST90001737,29,19.71,0.177,0.311,0.996,1.000,0.877,1.141,""
 AVBLOCK,Terminally Differentiated CD4-CD8- T cell %T cell,GCST90001574,24,18.72,0.164,0.280,0.994,1.000,0.874,1.145,""
@@ -1099,7 +1099,7 @@ AVBLOCK,CD25 on CD39+ CD4+ T cell,GCST90001961,23,51.74,0.538,0.953,1.000,1.000,
 AVBLOCK,CD20 on IgD+ CD38+ B cell,GCST90001751,26,22.55,0.197,0.401,0.999,1.000,0.884,1.131,""
 AVBLOCK,CD14+ CD16+ monocyte Absolute Count,GCST90001580,20,29.09,0.276,0.601,1.000,1.000,0.897,1.115,""
 AVBLOCK,CD14+ CD16+ monocyte %monocyte,GCST90001585,25,36.28,0.340,0.774,1.000,1.000,0.907,1.102,""
-AVBLOCK,CD45RA- CD28- CD8+ T cell %CD8+ T cell,GCST90001696,50,not interpretable,0.388,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
+AVBLOCK,CD45RA- CD28- CD8+ T cell %CD8+ T cell,GCST90001696,50,6169.11,0.388,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
 AVBLOCK,CD8 on CD39+ CD8+ T cell,GCST90002121,25,24.87,0.226,0.475,1.000,1.000,0.889,1.124,""
 AVBLOCK,CCR2 on CD62L+ myeloid Dendritic Cell,GCST90002014,14,19.17,0.170,0.294,0.995,1.000,0.875,1.143,""
 AVBLOCK,IgD on IgD+ CD24- B cell,GCST90001821,29,44.49,0.329,0.896,1.000,1.000,0.916,1.092,""
@@ -1140,11 +1140,11 @@ AVBLOCK,CD27 on IgD- CD38- B cell,GCST90001802,31,38.92,0.348,0.821,1.000,1.000,
 AVBLOCK,CD64 on CD14+ CD16+ monocyte,GCST90002011,12,8.61,0.077,0.047,0.666,0.991,0.819,1.221,""
 AVBLOCK,Switched memory B cell %B cell,GCST90001402,13,9.79,0.081,0.064,0.764,0.997,0.829,1.206,""
 AVBLOCK,IgD- CD38- B cell %B cell,GCST90001445,12,8.57,0.073,0.046,0.662,0.991,0.819,1.221,""
-AVBLOCK,CD33 on CD33+ HLA DR+ CD14dim,GCST90001947,27,not interpretable,1.146,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD33 on CD33+ HLA DR+ CD14dim,GCST90001947,27,93.73,1.146,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,FSC-A on HLA DR+ Natural Killer,GCST90001970,20,27.73,0.261,0.562,1.000,1.000,0.895,1.117,""
 AVBLOCK,HLA DR on CD33dim HLA DR+ CD11b-,GCST90002111,18,41.80,0.389,0.864,1.000,1.000,0.913,1.095,""
-AVBLOCK,CD33 on CD33+ HLA DR+,GCST90001956,23,not interpretable,1.112,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
-AVBLOCK,CD33 on CD33+ HLA DR+ CD14-,GCST90001957,21,not interpretable,1.095,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD33 on CD33+ HLA DR+,GCST90001956,23,88.56,1.112,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
+AVBLOCK,CD33 on CD33+ HLA DR+ CD14-,GCST90001957,21,86.49,1.095,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible sum(F)/n (>1)
 AVBLOCK,CD127 on T cell,GCST90001922,18,14.17,0.134,0.153,0.953,1.000,0.856,1.168,""
 AVBLOCK,CD8+ and CD8dim T cell %leukocyte,GCST90001614,15,11.89,0.096,0.102,0.885,1.000,0.844,1.185,""
 AVBLOCK,CD45 on granulocyte,GCST90001913,15,11.99,0.108,0.104,0.889,1.000,0.845,1.184,""
@@ -1423,7 +1423,7 @@ AVBLOCK,CD4 on CD39+ resting CD4 regulatory T cell,GCST90002065,15,12.62,0.126,0
 AVBLOCK,IgD on IgD+ B cell,GCST90001827,21,33.02,0.233,0.703,1.000,1.000,0.903,1.107,""
 AVBLOCK,Transitional B cell %B cell,GCST90001576,15,10.04,0.089,0.068,0.783,0.998,0.831,1.203,""
 AVBLOCK,Leukocyte Absolute Count,GCST90001600,11,7.38,0.068,0.032,0.540,0.971,0.806,1.240,""
-AVBLOCK,CD45RA+ CD28- CD8+ T cell %CD8+ T cell,GCST90001699,31,not interpretable,0.210,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
+AVBLOCK,CD45RA+ CD28- CD8+ T cell %CD8+ T cell,GCST90001699,31,4172.60,0.210,not interpretable,not interpretable,not interpretable,not interpretable,not interpretable,implausible aggregate R2 (>1)
 AVBLOCK,CD20- CD38- B cell %B cell,GCST90001422,23,14.63,0.137,0.164,0.961,1.000,0.858,1.165,""
 AVBLOCK,CCR2 on CD14- CD16-,GCST90002003,17,12.35,0.114,0.111,0.903,1.000,0.847,1.181,""
 AVBLOCK,Basophil %CD33dim HLA DR- CD66b-,GCST90001533,20,33.65,0.346,0.718,1.000,1.000,0.904,1.106,""

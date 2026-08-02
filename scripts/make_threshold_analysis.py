@@ -66,6 +66,9 @@ def crosswalk(main, gws):
             "gws_nIV": int(r["nIV"]),
             "gws_method": r["method"],
             "gws_OR": round(float(r["OR"]), 3),
+            # confidence bounds are required by build_medicine_docs.py::add_table1
+            "gws_OR_L": round(float(r["OR_L"]), 3),
+            "gws_OR_U": round(float(r["OR_U"]), 3),
             "gws_p": float(r["p"]),
             "gws_FDR": round(float(r["FDR"]), 4),
         }

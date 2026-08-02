@@ -30,6 +30,7 @@ GA = pd.read_csv(os.path.join(RES, "MR_immune_GWS_AVBLOCK.csv"))
 S18_PATH = os.path.join(RES, "S18_phenotype_power.csv")
 S19_PATH = os.path.join(RES, "S19_coverage_summary.csv")
 S20_PATH = os.path.join(RES, "S19_diagnostic_coverage.csv")
+S21_PATH = os.path.join(RES, "S21_qc_summary.csv")
 
 # --- S1 / S2 full trait-level results, sorted by P, rounded to a sensible precision ---
 # Some accessions show aggregate instrument behaviour that no reporting convention can produce
@@ -133,8 +134,9 @@ S6 = IV.rename(columns={
     "eaf": "EAF", "beta": "beta", "se": "SE", "p": "P", "n": "N"})
 
 # --- S7 leave-one-out for the sensitivity-stable traits ---
-robust_traits = set(S.loc[S["robust"] == True, "trait"])
-S7 = LOO[LOO["trait"].isin(robust_traits)].copy()
+# S4 and S7 both cover the 15 cross-outcome concordant phenotypes; restricting S7 to the
+# sensitivity-stable subset discarded rows that immune_leaveoneout.csv already contains.
+S7 = LOO[LOO["trait"].isin(set(S["trait"]))].copy()
 S7["OR"] = S7["OR"].round(3)
 S7["p"] = S7["p"].map(lambda x: f"{x:.2e}")
 S7 = S7.rename(columns={"trait": "Immune phenotype", "drop_rsid": "SNP removed", "p": "P"})
@@ -368,6 +370,11 @@ if os.path.exists(S20_PATH):
 else:
     S20 = pd.DataFrame({"Outcome": ["S19_diagnostic_coverage.csv was not found; run scripts/26_diagnostic_coverage.R <finngen_dir>."]})
 
+if os.path.exists(S21_PATH):
+    S21 = pd.read_csv(S21_PATH)
+else:
+    S21 = pd.DataFrame({"Outcome": ["S21_qc_summary.csv was not found; run scripts/27_instrument_qc_sensitivity.R <finngen_dir>."]})
+
 SHEETS = [
     ("S1 Conduction full", S1,
      "Supplementary Table S1. Full two-sample MR results for all 731 immune cell phenotypes on cardiac conduction disorders (FinnGen R11 I9_CONDUCTIO; 12,371 cases/342,690 controls). IVW primary; sorted by P. Phenotypes whose aggregate instrument behaviour is implausible (aggregate R2 above 1, or the scale-invariant quantity sum(F)/n above 1) are flagged in the QC column; their estimates are not interpretable and are excluded from the power summaries (Section 3.1)."),
@@ -382,7 +389,7 @@ SHEETS = [
     ("S6 Instruments", S6,
      "Supplementary Table S6. Genetic instruments (SNPs) used for all immune cell phenotype exposures (P<1e-5, r2<0.001, F>10). GWAS ID should be used with phenotype label as the unique exposure key because two phenotype labels recur across GWAS accessions."),
     ("S7 Leave-one-out", S7,
-     "Supplementary Table S7. Leave-one-out IVW estimates for the primary-screen diagnostic subset for the primary outcome."),
+     "Supplementary Table S7. Leave-one-out IVW estimates for the 15 cross-outcome concordant immunophenotypes for the primary outcome."),
     ("S8 PRESSO-Steiger", S8,
      "Supplementary Table S8. MR-PRESSO global test, outlier fields reported for transparency only, and Steiger directionality test (exposure vs outcome variance explained) for the primary-screen diagnostic subset and primary outcome."),
     ("S9 Power grid", S9,
@@ -404,6 +411,8 @@ SHEETS = [
      "Supplementary Table S19. Which sensitivity diagnostics are computable under each instrument threshold, with the number and proportion of phenotypes meeting the minimum instrument count for each, and the proportion showing significant Cochran's Q heterogeneity."),
     ("S20 Cochran Q per phenotype", S20,
      "Supplementary Table S20. Cochran's Q heterogeneity statistic for every immunophenotype for which it is defined (at least three instruments), under both instrument thresholds and for both outcomes."),
+    ("S21 Instrument QC sensitivity", S21,
+     "Supplementary Table S21. Primary screen repeated after removing individual instruments whose reported effect exceeds one standard deviation per allele or whose expected minor-allele count is below 20, compared with the primary analysis using all instruments."),
 ]
 
 wb = Workbook()

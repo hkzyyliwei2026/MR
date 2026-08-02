@@ -68,7 +68,9 @@ res[, `:=`(
   `Immunophenotype`=trait,
   `GWAS Catalog accession`=sub("^ebi-a-","",id),
   `Instruments`=nIV,
-  `R2 (%)`=ifelse(bad,"not interpretable",sprintf("%.2f",R2*100)),
+  # the R^2 value is kept for flagged phenotypes as well: Section 3.1 quotes their range, and a
+  # blank cell would leave that claim uncheckable. The QC flag carries the interpretation caveat.
+  `R2 (%)`=sprintf("%.2f",R2*100),
   `sum(F)/n`=sprintf("%.3f",sumF_n),
   `Power at OR 1.1`=ifelse(bad|is.na(p11),"not interpretable",sprintf("%.3f",p11)),
   `Power at OR 1.2`=ifelse(bad|is.na(p12),"not interpretable",sprintf("%.3f",p12)),

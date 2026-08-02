@@ -1,0 +1,5 @@
+Outcome,Instrument set,Phenotypes analyzable,Median instruments,Nominally significant,Expected nominal,FDR significant,Smallest FDR,Median OR upper 95% CI
+CONDUCTIO,all instruments,731,22,33,36.6,0,0.3233,1.0272
+CONDUCTIO,QC-filtered,727,20,39,36.4,0,0.2889,1.0421
+AVBLOCK,all instruments,731,22,33,36.6,0,0.111,1.0375
+AVBLOCK,QC-filtered,727,20,39,36.4,0,0.6819,1.0585
