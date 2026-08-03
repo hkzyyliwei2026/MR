@@ -42,10 +42,19 @@ cochran_q <- function(bx, bxse, by, byse){
   w1 <- (bx / byse)^2
   b1 <- sum(w1 * r) / sum(w1)
   q1 <- sum(w1 * (r - b1)^2)
-  # second-order weight: Var(r_j) = byse^2/bx^2 + by^2 * bxse^2 / bx^4
-  w2 <- 1 / (byse^2 / bx^2 + by^2 * bxse^2 / bx^4)
-  b2 <- sum(w2 * r) / sum(w2)
-  q2 <- sum(w2 * (r - b2)^2)
+  # Modified second-order weight of Bowden et al (Int J Epidemiol 2019): the variance of the
+  # ratio is evaluated at the IVW estimate, not at each variant's own ratio. Substituting the
+  # variant's own by_j downweights precisely the variants that drive heterogeneity, which
+  # suppresses Q by construction; an earlier version of this script made that error.
+  bh <- b1
+  for (i in 1:100) {
+    w  <- 1 / (byse^2 / bx^2 + bh^2 * bxse^2 / bx^2)
+    nb <- sum(w * r) / sum(w)
+    if (abs(nb - bh) < 1e-12) { bh <- nb; break }
+    bh <- nb
+  }
+  w2 <- 1 / (byse^2 / bx^2 + bh^2 * bxse^2 / bx^2)
+  q2 <- sum(w2 * (r - bh)^2)
   df <- length(bx) - 1L
   list(Q = q1, df = df, P = pchisq(q1, df, lower.tail = FALSE),
        Q2 = q2, P2 = pchisq(q2, df, lower.tail = FALSE))
@@ -111,7 +120,8 @@ for (nm in OUTCOMES) {
       `Q significant at P<.05, %`=round(100*mean(rows$Q_P < 0.05, na.rm=TRUE),1),
       `Q significant, modified weights, n`=sum(rows$Q2_P < 0.05, na.rm=TRUE),
       `Q significant, modified weights, %`=round(100*mean(rows$Q2_P < 0.05, na.rm=TRUE),1),
-      `Median Q/df`=round(median(rows$Q/rows$Q_df, na.rm=TRUE),3))
+      `Median Q/df`=round(median(rows$Q/rows$Q_df, na.rm=TRUE),3),
+      `Median Q/df, modified weights`=round(median(rows$Q2/rows$Q_df, na.rm=TRUE),3))
   }
 }
 
@@ -123,6 +133,7 @@ setnames(PP, c("trait","nIV","Q","Q_df","Q_P","Q2","Q2_P","outcome","threshold")
 keep <- c("Outcome","Instrument threshold","Immunophenotype","GWAS Catalog accession",
           "Instruments","Cochran Q","Q df","Q P",
           "Cochran Q (modified weights)","Q P (modified weights)")
+for (cc in c("Cochran Q (modified weights)","Q P (modified weights)")) PP[[cc]] <- round(PP[[cc]], 4)
 fwrite(PP[, ..keep], file.path(RES,"S19_diagnostic_coverage.csv"))
 fwrite(rbindlist(summary_rows), file.path(RES,"S19_coverage_summary.csv"))
 H <- Reduce(function(x,y) merge(x,y,by=c("rsid","id"),all=TRUE), harm)

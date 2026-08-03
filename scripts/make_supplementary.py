@@ -37,7 +37,7 @@ S23_PATH = os.path.join(RES, "S23_subendpoint_summary.csv")
 # --- S1 / S2 full trait-level results, sorted by P, rounded to a sensible precision ---
 # Some accessions show aggregate instrument behaviour that no reporting convention can produce
 # (aggregate R2 > 1, or sum(F)/n > 1, which is invariant to rescaling of the reported effect
-# sizes; Section 3.1). Their Wald ratios are not interpretable, so every table carrying a
+# sizes; Section 3.1). Their R2 and power metrics are not interpretable, so every table carrying a
 # per-phenotype estimate flags them. The set is read from the S18 output rather than hard-coded
 # here, so that changing the QC rule in 25_phenotype_power.R propagates to S1/S2 automatically.
 if os.path.exists(S18_PATH):
@@ -64,7 +64,7 @@ def fmt_full(df):
         "OR": "OR", "OR_L": "OR 95%CI lower", "OR_U": "OR 95%CI upper",
         "p": "P", "FDR": "FDR (BH)"})
     acc = d["GWAS ID"].str.replace("ebi-a-", "", regex=False)
-    d["QC flag"] = acc.map(lambda a: f"{QC_FLAGGED[a]}; estimate not interpretable"
+    d["QC flag"] = acc.map(lambda a: f"{QC_FLAGGED[a]}; R2 and power metrics not interpretable"
                            if a in QC_FLAGGED else None)
     return d
 
@@ -183,7 +183,7 @@ S9 = PW.rename(columns={
     "minDetectableOR_nominal": "Min detectable OR (nominal α=0.05)",
     "minDetectableOR_studywide": "Min detectable OR (study-wide α=0.05/731)"})
 
-# --- S10 realised power of the primary-screen diagnostic subset at their observed effects ---
+# --- S10 realised power of the five nominal associations meeting the descriptive sensitivity criteria at their observed effects ---
 S10 = PWH.rename(columns={
     "trait": "Immune phenotype", "R2_exp_pct": "R2 exposure (%)", "OR": "Observed OR",
     "power_nominal": "Power (nominal α=0.05)", "power_studywide": "Power (study-wide α=0.05/731)"})
@@ -228,7 +228,7 @@ S11 = pd.concat([
     Gtop
 ], ignore_index=True)
 
-# --- S12 trait-level cross-threshold comparison (Section 3.5): P and FDR under both thresholds ---
+# --- S12 trait-level cross-threshold comparison (Section 3.2): P and FDR under both thresholds ---
 S12 = pd.read_csv(os.path.join(PROJ, "derived", "threshold_instability.csv"))
 S12 = S12.sort_values(["outcome", "p_gws"]).rename(columns={
     "outcome": "Outcome",
@@ -401,7 +401,7 @@ if os.path.exists(S19_PATH):
     S19 = pd.read_csv(S19_PATH)
     S19 = pd.concat([S19, pd.DataFrame([{}]), pd.DataFrame([
         {"Outcome": "Minimum instrument counts: Cochran's Q and MR-Egger require at least three variants, MR-PRESSO at least four, and leave-one-out is uninformative below three. A single-variant Wald ratio supports none of them."},
-        {"Outcome": "Cochran's Q is reported under two weightings. The first-order weight assumes the variant-exposure coefficients are measured without error; that assumption is not satisfied at an instrument threshold of P < 1e-5, and the statistic overstates heterogeneity when it is violated. The modified second-order weight propagates the variance of those coefficients and is the appropriate comparison here."},
+        {"Outcome": "Cochran's Q is reported under two weightings. The first-order weight assumes the variant-exposure coefficients are measured without error. The modified second-order weight of Bowden et al (Int J Epidemiol 2019) propagates the variance of those coefficients and is evaluated iteratively at the inverse-variance-weighted estimate. In this dataset the two give nearly identical results, so the heterogeneity reported here is not an artefact of the first-order assumption."},
         {"Outcome": "Cochran's Q was computed for every phenotype meeting the three-variant requirement; per-phenotype values are given in Supplementary Table S20."},
         {"Outcome": "IV = instrumental variable."},
     ])], ignore_index=True)
@@ -418,6 +418,12 @@ else:
 
 if os.path.exists(S21_PATH):
     S21 = pd.read_csv(S21_PATH)
+    S21 = pd.concat([S21, pd.DataFrame([{}]), pd.DataFrame([
+        {"Outcome": "Instruments were removed if the reported effect exceeded one standard deviation per allele, which is not credible for an inverse-normal transformed exposure, or if the expected minor-allele count (2 x n x MAF) was below 20. The filter retained 15,251 of 18,728 instrument records (81.4%). The two criteria overlap heavily: almost all of the removed records fail the effect-size criterion."},
+        {"Outcome": "Records with no reported effect-allele frequency have no defined minor-allele count and were also removed."},
+        {"Outcome": "The filter acts on individual variants rather than on phenotype-level aggregates, and is therefore complementary to the aggregate criteria used in Supplementary Table S18."},
+        {"Outcome": "Per-phenotype results are in S21_instrument_qc_sensitivity.csv in the code package. Post-hoc analysis; not prespecified."},
+    ])], ignore_index=True)
 else:
     S21 = pd.DataFrame({"Outcome": ["S21_qc_summary.csv was not found; run scripts/27_instrument_qc_sensitivity.R <finngen_dir>."]})
 
@@ -435,6 +441,7 @@ if os.path.exists(S23_PATH):
     S23 = pd.read_csv(S23_PATH)
     S23 = pd.concat([S23, pd.DataFrame([{}]), pd.DataFrame([
         {"Outcome": "The primary screen was repeated without modification on the two bundle-branch-block component endpoints of I9_CONDUCTIO. These are narrower than the broader endpoint and do not carry the pre-excitation, long-QT or sinoatrial-block sub-codes discussed in Section 2.3."},
+        {"Outcome": "Case counts are 2,419 for I9_LBBB and 1,186 for I9_RBBB, against 12,371 and 6,935 for the primary endpoints, with the same 342,690 controls. The downloaded FinnGen release 11 summary files carry no case-count field, so these were recovered from the reported overall, case-only and control-only alternate-allele frequencies (scripts/30_endpoint_case_counts.R); the same procedure reproduced the two known case counts exactly."},
         {"Outcome": "Per-phenotype results are in S23_subendpoint_screen.csv in the code package. Post-hoc analysis; not prespecified."},
     ])], ignore_index=True)
 else:
@@ -442,34 +449,34 @@ else:
 
 SHEETS = [
     ("S1 Conduction full", S1,
-     "Supplementary Table S1. Full two-sample MR results for all 731 immune cell phenotypes on cardiac conduction disorders (FinnGen R11 I9_CONDUCTIO; 12,371 cases/342,690 controls). IVW primary; sorted by P. Phenotypes whose aggregate instrument behaviour is implausible (aggregate R2 above 1, or the scale-invariant quantity sum(F)/n above 1) are flagged in the QC column; their estimates are not interpretable and are excluded from the power summaries (Section 3.1)."),
+     "Supplementary Table S1. Full two-sample MR results for all 731 immune cell phenotypes on cardiac conduction disorders (FinnGen R11 I9_CONDUCTIO; 12,371 cases/342,690 controls). IVW primary; sorted by P. Phenotypes whose aggregate instrument behaviour is implausible (aggregate R2 above 1, or the scale-invariant quantity sum(F)/n above 1) are flagged in the QC column. Their R2 and power metrics are not interpretable, and those with aggregate R2 above 1 are excluded from the power summaries; the MR estimates themselves are retained in the primary screen (Section 3.1)."),
     ("S2 AVblock full", S2,
-     "Supplementary Table S2. Full two-sample MR results for all 731 immune cell phenotypes on atrioventricular block (FinnGen R11 I9_AVBLOCK; 6,935 cases/342,690 controls). IVW primary; sorted by P. Phenotypes whose aggregate instrument behaviour is implausible (aggregate R2 above 1, or the scale-invariant quantity sum(F)/n above 1) are flagged in the QC column; their estimates are not interpretable and are excluded from the power summaries (Section 3.1)."),
+     "Supplementary Table S2. Full two-sample MR results for all 731 immune cell phenotypes on atrioventricular block (FinnGen R11 I9_AVBLOCK; 6,935 cases/342,690 controls). IVW primary; sorted by P. Phenotypes whose aggregate instrument behaviour is implausible (aggregate R2 above 1, or the scale-invariant quantity sum(F)/n above 1) are flagged in the QC column. Their R2 and power metrics are not interpretable, and those with aggregate R2 above 1 are excluded from the power summaries; the MR estimates themselves are retained in the primary screen (Section 3.1)."),
     ("S3 Concordant", S3,
      "Supplementary Table S3. Fifteen immunophenotypes nominally significant (P<0.05) and directionally concordant across both outcomes (source of Section 3.2)."),
     ("S4 Sensitivity", S4,
-     "Supplementary Table S4. Sensitivity analyses (IVW, weighted median, MR-Egger, MR-Egger I2_GX/NOME, and Cochran's Q), instrument strength (mean/min F), and variance explained (R2, %) for the 15 concordant immunophenotypes. robust=TRUE marks the five phenotypes forming the primary-screen diagnostic subset."),
+     "Supplementary Table S4. Sensitivity analyses (IVW, weighted median, MR-Egger, MR-Egger I2_GX/NOME, and Cochran's Q), instrument strength (mean/min F), and variance explained (R2, %) for the 15 concordant immunophenotypes. robust=TRUE marks the five concordant phenotypes that also met the sensitivity-stability criteria (Section 3.4)."),
     ("S5 Reverse MR", S5,
-     "Supplementary Table S5. Reverse Mendelian randomization (cardiac conduction disorders to immune phenotype) for the primary-screen diagnostic subset."),
+     "Supplementary Table S5. Reverse Mendelian randomization (cardiac conduction disorders to immune phenotype) for the five nominal associations meeting the descriptive sensitivity criteria."),
     ("S6 Instruments", S6,
      "Supplementary Table S6. Genetic instruments (SNPs) used for all immune cell phenotype exposures (P<1e-5, r2<0.001, F>10), with the harmonised variant-outcome associations for both endpoints alongside the variant-exposure associations. Outcome estimates are aligned to the exposure effect allele; they are blank for the 1,053 instrument records that were dropped at harmonisation (allele mismatch, ambiguous palindromic variant, or absence from the outcome file), which is why 17,675 of the 18,728 records carry outcome statistics. GWAS ID should be used with phenotype label as the unique exposure key because two phenotype labels recur across GWAS accessions."),
     ("S7 Leave-one-out", S7,
      "Supplementary Table S7. Leave-one-out IVW estimates for the 15 cross-outcome concordant immunophenotypes for the primary outcome."),
     ("S8 PRESSO-Steiger", S8,
-     "Supplementary Table S8. MR-PRESSO global test, outlier fields reported for transparency only, and Steiger directionality test (exposure vs outcome variance explained) for the primary-screen diagnostic subset and primary outcome."),
+     "Supplementary Table S8. MR-PRESSO global test, outlier fields reported for transparency only, and Steiger directionality test (exposure vs outcome variance explained) for the five nominal associations meeting the descriptive sensitivity criteria and primary outcome."),
     ("S9 Power grid", S9,
      "Supplementary Table S9. Statistical power: minimum detectable odds ratio at 80% power as a function of instrument-explained variance (R²), for each outcome, at nominal (α=0.05) and study-wide (α=0.05/731) significance (Brion 2013 approximation)."),
     ("S10 Power per-hit", S10,
-     "Supplementary Table S10. Statistical power to detect the observed effect of each member of the primary-screen diagnostic subset (primary outcome), given its instrument R² and observed OR, at nominal and study-wide significance."),
+     "Supplementary Table S10. Statistical power to detect the observed effect of each of the five concordant phenotypes (Section 3.4; primary outcome), given its instrument R² and observed OR, at nominal and study-wide significance."),
     ("S11 Threshold", S11,
      "Supplementary Table S11. Instrument-threshold sensitivity analysis. The primary analysis used exposure instruments selected at P<1e-5. The sensitivity analysis retained only genome-wide significant exposure instruments (P<5e-8) before harmonization and F>10 filtering."),
     ("S12 Threshold crosswalk", S12,
-     "Supplementary Table S12. Phenotype-level cross-threshold comparison for phenotype records analyzable under both instrument thresholds (607 per outcome). For each immune phenotype and outcome, the GWAS ID, number of instruments, P value, and FDR under the primary (P<1e-5) and genome-wide (P<5e-8) thresholds are shown side by side. These are the underlying data for Section 3.5 and Figure 3 and are sorted by P<5e-8."),
+     "Supplementary Table S12. Phenotype-level cross-threshold comparison for phenotype records analyzable under both instrument thresholds (607 per outcome). For each immune phenotype and outcome, the GWAS ID, number of instruments, odds ratio with 95% confidence interval, P value, and FDR under the primary (P<1e-5) and genome-wide (P<5e-8) thresholds are shown side by side. These are the underlying data for Section 3.5 and Figure 3 and are sorted by P<5e-8."),
     ("S13 Chen re-analysis", S13,
      "Supplementary Table S13. Targeted re-analysis of the previously reported association between genetically predicted lymphocyte count and atrioventricular block (Chen Y et al, Front Immunol 2023;14:1041591), which used Blood Cell Consortium exposures and FinnGen release 2. Instruments here were taken from the same exposure source (GWAS Catalog GCST90002316; Chen MH et al, Cell 2020; 524,923 European-ancestry participants), clumped at r2<0.001 within 10 Mb against the 1000 Genomes European panel and filtered at F>10, and tested against FinnGen release 11. Release 11 contains the release 2 participants, so this is a re-analysis in an expanded release of the same cohort and not an independent replication; the two sets of estimates are not independent."),
     *POSTHOC_SHEETS,
     ("S17 Endpoint definitions", S17,
-     "Supplementary Table S17. Definitions of the two FinnGen release 11 outcome endpoints."),
+     "Supplementary Table S17. Definitions of the two FinnGen release 11 outcome endpoints. Case counts for the bundle-branch-block component endpoints are reported in Supplementary Table S23; a mutually exclusive decomposition of I9_CONDUCTIO into component endpoints remains unavailable."),
     ("S18 Power per phenotype", S18,
      "Supplementary Table S18. Instrument strength and statistical power for all 731 immunophenotypes, by outcome."),
     ("S19 Diagnostic coverage", S19,

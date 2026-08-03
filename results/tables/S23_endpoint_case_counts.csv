@@ -1,0 +1,6 @@
+Endpoint,Case-to-control ratio,Controls,Cases (recovered),Cases (reported in Section 2.3),Recovery error (cases)
+I9_CONDUCTIO,0.03609974,342690,12371,12371,0
+I9_AVBLOCK,0.02023673,342690,6935,6935,0
+I9_LBBB,0.00705926,342690,2419,,
+I9_RBBB,0.00346105,342690,1186,,
+I9_AF,0.24079529,,,,

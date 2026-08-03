@@ -192,9 +192,9 @@ def add_frontmatter(doc: Document, md: str) -> None:
 # is reworded the match silently stops firing and the item vanishes from the DOCX, so every
 # trigger is registered here and verified after the body is written.
 DISPLAY_TRIGGERS = {
-    "Figure 1": "The analytical workflow is summarized in Figure 1",
-    "Figure 2": "did not identify any FDR-significant association for either conduction outcome (Figure 2)",
-    "Table 1": "Table 1 summarizes the contrast between the two thresholds",
+    "Figure 1": "The workflow is summarized in Figure 1",
+    "Figure 2": "found no FDR-significant association for either outcome (Figure 2)",
+    "Table 1": "primary-screen result (Table 1)",
     "Figure 3": "(Figure 3A)",
 }
 
@@ -224,7 +224,7 @@ def add_body(doc: Document, md: str) -> None:
             emitted.add("Figure 2")
             add_figure_legend(
                 doc,
-                "Figure 2. Volcano plots from the primary P < 1 x 10^-5 instrument-threshold analysis of 731 immune-cell phenotypes and cardiac conduction disorders or atrioventricular block. No phenotype survived false-discovery-rate correction in the primary screen. Green labeled points indicate the primary-screen diagnostic subset, the five directionally concordant phenotypes that passed the sensitivity-stability criteria of Section 2.5; none was FDR-significant. Gold diamonds mark the genome-wide-threshold FDR signals, the five phenotype-level signals identified only under the stricter P < 5 x 10^-8 threshold. The two sets are non-overlapping and share no phenotype. The genome-wide-threshold FDR signals are plotted in both panels to show where they fall in the primary screen; they reached FDR significance for cardiac conduction disorders only.",
+                "Figure 2. Volcano plots from the primary P < 1 x 10^-5 instrument-threshold analysis of 731 immune-cell phenotypes and cardiac conduction disorders or atrioventricular block. No phenotype survived false-discovery-rate correction in the primary screen. Green labels identify five nominally associated phenotypes that met the descriptive sensitivity criteria specified in Section 2.5; none was FDR-significant. Gold diamonds mark the genome-wide-threshold FDR signals, the five phenotype-level signals identified only under the stricter P < 5 x 10^-8 threshold. The two sets are non-overlapping and share no phenotype. The genome-wide-threshold FDR signals are plotted in both panels to show where they fall in the primary screen; they reached FDR significance for cardiac conduction disorders only.",
             )
         if DISPLAY_TRIGGERS["Table 1"] in line:
             emitted.add("Table 1")
@@ -328,31 +328,31 @@ def build_strobe() -> None:
          "Methods 2.4 (F-statistic filtering, winner's curse), 2.5 (MR-Egger intercept, Cochran's Q, MR-PRESSO, leave-one-out; MR-PRESSO computed with the MRPRESSO package and used as a global heterogeneity diagnostic only), 2.6 (Steiger directionality), 2.8 (post-hoc variant-level diagnostics)"),
         ("Methods", "8",
          "Describe any sensitivity analyses or additional analyses performed (for example, comparison of different MR estimators, MR-Egger, weighted median, MR-PRESSO, assessment of sample overlap, negative controls).",
-         "Methods 2.5, 2.6 (reverse-direction MR and multiple testing), 2.7 (targeted re-analysis), 2.8 (post-hoc rare-variant diagnostics and minor-allele-frequency sensitivity analysis), and the genome-wide instrument-threshold sensitivity analysis in Methods 2.6"),
+         "Methods 2.5, 2.6 (reverse-direction MR and multiple testing), 2.7 (targeted re-analysis), 2.8 (post-hoc rare-variant diagnostics and minor-allele-frequency sensitivity analysis), the per-instrument credibility filter, component sub-endpoint screen and atrial-fibrillation negative control described in Methods 2.6 and reported in Supplementary Tables S21, S23 and S22, and the genome-wide instrument-threshold sensitivity analysis in Methods 2.6"),
         ("Results", "9",
          "Descriptive data. (9a) Numbers at each stage of the study and reasons for exclusion; summary statistics for the genetic variants, the exposure and the outcome. (9b) If the data sources include meta-analyses of previous studies, assessments of heterogeneity across those studies. (9c) Data sources, participants, and whether exposure and outcome data come from the same or different (non-overlapping) samples.",
-         "9a: Figure 1; Methods 2.3, 2.4; Results 3.4; Supplementary Tables S6 and S11. 9b: Methods 2.1 (neither source dataset is a meta-analysis of separately published studies, so no across-study heterogeneity assessment applies; instrument-level heterogeneity is reported in Methods 2.5 and Results 3.2, 3.6). 9c: Methods 2.1, 2.2, 2.3."),
+         "9a: Figure 1; Methods 2.3, 2.4; Results 3.2; Supplementary Tables S6 and S11. 9b: Methods 2.1 (neither source dataset is a meta-analysis of separately published studies, so no across-study heterogeneity assessment applies; instrument-level heterogeneity is reported in Methods 2.5 and Results 3.4). 9c: Methods 2.1, 2.2, 2.3."),
         ("Results", "10",
          "Main results. (10a) Associations between genetic variant and exposure, and between genetic variant and outcome. (10b) MR estimates of the exposure-outcome association with measures of uncertainty, on an interpretable scale. (10c) Where relevant, translation of relative into absolute risk. (10d) Plots to visualise results.",
-         "10a: Supplementary Table S6. 10b: Results 3.1-3.6; Table 1; Supplementary Tables S1, S2, S11, S13. 10d: Figures 2 and 3; Supplementary Figures S1 and S2. 10c: not applicable, because the primary screen returned no false-discovery-rate-significant association and therefore no relative risk to translate into absolute risk."),
+         "10a: Supplementary Table S6. 10b: Results 3.1-3.4; Table 1; Supplementary Tables S1, S2, S11, S13. 10d: Figures 2 and 3; Supplementary Figures S1 and S2. 10c: not applicable, because the primary screen returned no false-discovery-rate-significant association and therefore no relative risk to translate into absolute risk."),
         ("Results", "11",
          "Assessment of assumptions. (11a) Report the assessment of the validity of the assumptions. (11b) Report any additional statistics, such as assessments of heterogeneity across instruments (I-squared or Cochran's Q).",
-         "11a: Results 3.2, 3.3, 3.4, 3.6; Supplementary Tables S4, S8 and S14. 11b: Results 3.2, 3.4, 3.6 (Cochran's Q, MR-Egger intercept); Methods 2.5 (I-squared GX); Supplementary Tables S4, S8 and S14."),
+         "11a: Results 3.1, 3.2, 3.3, 3.4; Results 3.1 (phenotype-wide Cochran's Q); Supplementary Tables S4, S8, S14, S19 and S20. 11b: Results 3.1 (phenotype-wide Cochran's Q under first-order and modified second-order weights), 3.2, 3.3, 3.4 (Cochran's Q, MR-Egger intercept); Methods 2.5 (I-squared GX); Results 3.1 (phenotype-wide Cochran's Q); Supplementary Tables S4, S8, S14, S19 and S20."),
         ("Results", "12",
          "Sensitivity analyses and additional analyses. (12a) Robustness of the main results to violations of the assumptions. (12b) Assessment of the direction of the causal effect. (12c) Additional analyses. (12d) Where relevant, comparison with estimates from non-MR analyses. (12e) Indications of any other potential sources of bias, such as selection bias, sample overlap or winner's curse.",
-         "12a: Results 3.2, 3.4, 3.5; Supplementary Tables S4, S11, S12, S14, S15. 12b: Results 3.3 (reverse-direction MR and Steiger filtering); the scope of that analysis is stated at the end of Results 3.4. 12c: Results 3.4-3.6. 12e: Methods 2.1 (no participant overlap between samples) and 2.4 (winner's curse); Results 3.4 and 3.5 and Supplementary Tables S14-S15 (weight carried by a single rare-variant instrument); Discussion, limitations. 12d: observational associations are summarized in the Introduction, but no formal quantitative comparison with non-MR estimates was performed."),
+         "12a: Results 3.1, 3.2, 3.3, 3.4; Supplementary Tables S4, S11, S12, S14, S15, S21 and S23. 12b: Results 3.4 (reverse-direction MR and Steiger filtering); the scope of that analysis is stated at the end of Results 3.2. 12c: Results 3.2-3.4. 12e: Methods 2.1 (no participant overlap between samples) and 2.4 (winner's curse); Results 3.2 and 3.3 and Supplementary Tables S14-S15 (weight carried by a single rare-variant instrument); Discussion, limitations. 12d: observational associations are summarized in the Introduction, but no formal quantitative comparison with non-MR estimates was performed."),
         ("Discussion", "13",
          "Summarise key results with reference to the study objectives.",
          "Discussion, paragraphs 1-2; Conclusion"),
         ("Discussion", "14",
          "Discuss limitations, taking into account the validity of the instrumental-variable assumptions, other sources of potential bias, and imprecision. Discuss both the direction and the magnitude of any potential bias.",
-         "Discussion, paragraphs 12-18 (limitations First to Tenth); Results 3.1 and Discussion paragraph 3 (power and detectable effect sizes); Supplementary Table S18 (phenotype-level instrument strength and power)"),
+         "Discussion, paragraph 10 (limitations First to Sixth); Results 3.1 and Discussion paragraph 3 (power and detectable effect sizes); Supplementary Table S18 (phenotype-level instrument strength and power)"),
         ("Discussion", "15",
          "Interpretation. (15a) A cautious overall interpretation in the context of the limitations and in comparison with other studies. (15b) Underlying biological mechanisms that could drive a potential causal effect, and whether the gene-environment equivalence assumption is reasonable. (15c) Whether the results have clinical or public-policy relevance, and to what extent they inform effect sizes of possible interventions.",
-         "15a: Discussion, paragraphs 2-10. 15b: Discussion, paragraphs 6 and 9 (tissue-local and stage-specific mechanisms; gene-environment equivalence). 15c: Discussion, paragraph 10; Conclusion."),
+         "15a: Discussion, paragraphs 2-10. 15b: Discussion, paragraphs 5 and 8 (tissue-local and stage-specific mechanisms; gene-environment equivalence). 15c: Discussion, paragraphs 1 and 8 (clinical prioritization; gene-intervention equivalence); Conclusion."),
         ("Discussion", "16",
          "Discuss the generalizability (external validity) of the results, including the relevance of the population(s) and ancestry to which the findings apply.",
-         "Methods 2.1; Discussion, paragraph 13 (third limitation, founder-population transportability) and the closing sentence of paragraph 18"),
+         "Methods 2.1; Discussion, paragraph 10 (third limitation, founder-population transportability) and the closing sentence of paragraph 10"),
         ("Other information", "17",
          "Describe sources of funding and the role of funders in the present study and, if applicable, for the databases and original studies on which the present study is based.",
          "Funding"),
@@ -364,7 +364,7 @@ def build_strobe() -> None:
          "Conflicts of interest"),
         ("Other information", "20",
          "Where applicable, report other study registration, protocol availability, or supplementary reporting such as a completed STROBE-MR checklist.",
-         "Methods 2.1 states that the analysis was not prospectively registered and that no protocol was deposited in a public registry. Methods 2.8 and the seventh limitation identify the rare-variant diagnostics as post-hoc. This completed STROBE-MR checklist is provided as Supplemental Digital Content."),
+         "Methods 2.1 states that the analysis was not prospectively registered and that no protocol was deposited in a public registry. Methods 2.8 and the sixth limitation identify the rare-variant diagnostics as post-hoc. This completed STROBE-MR checklist is provided as Supplemental Digital Content."),
     ]
     doc = setup_document()
     add_heading(doc, "STROBE-MR Checklist")
