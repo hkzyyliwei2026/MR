@@ -21,6 +21,7 @@ COVER = ROOT / "cover"
 MANUSCRIPT_MD = SOURCE / "manuscript_medicine.md"
 COVER_MD = COVER / "Cover_Letter_Medicine.md"
 TABLE1_CSV = SOURCE / "table1_threshold_crosswalk.csv"
+STROBE_TEMPLATE = SOURCE / "STROBE-MR_template.docx"
 
 TITLE = (
     "Circulating immune-cell traits and cardiac conduction disease: "
@@ -81,6 +82,13 @@ def add_runs(paragraph, text: str) -> None:
                 run.font.superscript = True
 
 
+def sci(value: float, digits: int = 2) -> str:
+    """Format a P value as 3.06 x 10^-5, the notation add_runs renders and the body text uses.
+    Table cells previously carried the raw 3.06e-05 exponent form."""
+    mantissa, exponent = f"{value:.{digits}e}".split("e")
+    return f"{mantissa} x 10^{int(exponent)}"
+
+
 def add_paragraph(doc: Document, text: str = "", style: str | None = None):
     p = doc.add_paragraph(style=style) if style else doc.add_paragraph()
     add_runs(p, text)
@@ -104,25 +112,34 @@ def add_heading(doc: Document, title: str, level: int = 1) -> None:
     doc.add_heading(clean, level=level)
 
 
-def add_table1(doc: Document) -> None:
+TABLE1_TITLE = (
+    "Table 1. Genome-wide-threshold signals in relation to the primary screen. "
+    "The five threshold-specific immunophenotypes reaching FDR significance for "
+    "cardiac conduction disorders under the stricter genome-wide instrument threshold "
+    "(P < 5 x 10^-8) are shown against their position in the primary screen "
+    "(P < 1 x 10^-5). None reached nominal significance in the primary analysis. "
+    "Variant-level composition of these five instrument sets is given in "
+    "Supplementary Table S14."
+)
+TABLE1_ABBREV = (
+    "CI, confidence interval; FDR, false discovery rate; GWS, genome-wide significant "
+    "(P < 5 x 10^-8); IV, instrumental variable; IVW, inverse-variance weighted; "
+    "OR, odds ratio; Wald, single-variant Wald ratio."
+)
+
+
+def add_table1(doc: Document, grid: bool = True) -> None:
+    """Render Table 1. The manuscript carries the caption only, because Medicine requires
+    each table to be uploaded as its own file; grid=True is used for that separate file."""
     rows = []
     with TABLE1_CSV.open(newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             if row["outcome"] == "Cardiac conduction disorders":
                 rows.append(row)
 
-    add_paragraph(
-        doc,
-        "Table 1. Genome-wide-threshold signals in relation to the primary screen. "
-        "The five threshold-specific immunophenotypes reaching FDR significance for "
-        "cardiac conduction disorders under the stricter genome-wide instrument threshold "
-        "(P < 5 x 10^-8) are shown against their position in the primary screen "
-        "(P < 1 x 10^-5). None reached nominal significance in the primary analysis. "
-        "Variant-level composition of these five instrument sets is given in "
-        "Supplementary Table S14. GWS, genome-wide significant (P < 5 x 10^-8); "
-        "IV, instrumental variable; IVW, inverse-variance weighted; Wald, single-variant "
-        "Wald ratio; OR, odds ratio; CI, confidence interval; FDR, false discovery rate.",
-    )
+    add_paragraph(doc, TABLE1_TITLE + (" " + TABLE1_ABBREV if not grid else ""))
+    if not grid:
+        return
     columns = [
         "Immunophenotype",
         "GWS N IVs",
@@ -146,20 +163,21 @@ def add_table1(doc: Document) -> None:
             str(int(float(row["gws_nIV"]))),
             row["gws_method"],
             f"{float(row['gws_OR']):.3f} ({float(row['gws_OR_L']):.3f}-{float(row['gws_OR_U']):.3f})",
-            f"{float(row['gws_p']):.2e}",
+            sci(float(row['gws_p'])),
             f"{float(row['gws_FDR']):.3f}".lstrip("0"),
             f"{int(float(row['main_rank']))}/731",
             f"{float(row['main_p']):.2f}".lstrip("0"),
             f"{float(row['main_FDR']):.2f}".lstrip("0"),
         ]
         for i, value in enumerate(values):
-            cells[i].text = value
+            add_runs(cells[i].paragraphs[0], value)
     for table_row in table.rows:
         for cell in table_row.cells:
             cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
             for paragraph in cell.paragraphs:
                 for run in paragraph.runs:
                     run.font.size = Pt(7)
+    add_paragraph(doc, TABLE1_ABBREV)
 
 
 def add_figure_legend(doc: Document, text: str) -> None:
@@ -224,11 +242,11 @@ def add_body(doc: Document, md: str) -> None:
             emitted.add("Figure 2")
             add_figure_legend(
                 doc,
-                "Figure 2. Volcano plots from the primary P < 1 x 10^-5 instrument-threshold analysis of 731 immune-cell phenotypes and cardiac conduction disorders or atrioventricular block. No phenotype survived false-discovery-rate correction in the primary screen. Green labels identify the five sensitivity-stable phenotypes defined in Section 2.5; none was FDR-significant. Gold diamonds mark the genome-wide-threshold FDR signals, the five phenotype-level signals identified only under the stricter P < 5 x 10^-8 threshold. The two sets are non-overlapping and share no phenotype. The genome-wide-threshold FDR signals are plotted in both panels to show where they fall in the primary screen; they reached FDR significance for cardiac conduction disorders only.",
+                "Figure 2. Volcano plots from the primary P < 1 x 10^-5 instrument-threshold analysis of 731 immune-cell phenotypes and cardiac conduction disorders or atrioventricular block. No phenotype survived false-discovery-rate correction in the primary screen. Green labels identify five nominally associated phenotypes that met the descriptive sensitivity-stability criteria defined in Section 2.5; none was FDR-significant. Gold diamonds mark the genome-wide-threshold FDR signals, the five phenotype-level signals identified only under the stricter P < 5 x 10^-8 threshold. The two sets are non-overlapping and share no phenotype. The genome-wide-threshold FDR signals are plotted in both panels to show where they fall in the primary screen; they reached FDR significance for cardiac conduction disorders only.",
             )
         if DISPLAY_TRIGGERS["Table 1"] in line:
             emitted.add("Table 1")
-            add_table1(doc)
+            add_table1(doc, grid=False)
         if DISPLAY_TRIGGERS["Figure 3"] in line:
             emitted.add("Figure 3")
             add_figure_legend(
@@ -280,6 +298,13 @@ def build_manuscript() -> None:
     doc.save(PRIMARY / "Manuscript_Medicine.docx")
 
 
+def build_table1() -> None:
+    doc = setup_document()
+    add_table1(doc, grid=True)
+    PRIMARY.mkdir(parents=True, exist_ok=True)
+    doc.save(PRIMARY / "Table_1.docx")
+
+
 def build_cover_letter() -> None:
     md = COVER_MD.read_text(encoding="utf-8")
     doc = setup_document()
@@ -303,91 +328,48 @@ def build_cover_letter() -> None:
     doc.save(COVER / "Cover_Letter_Medicine.docx")
 
 
+# row index in the official template -> (section pointers, relevant-text cell)
+STROBE_FILL = {1: (['Title', 'Abstract'], 'Title; Abstract (title and Methods paragraph)'), 3: (['Introduction'], 'Introduction, paragraphs 1-3'), 4: (['Introduction'], 'Introduction, paragraphs 4-6'), 6: (['Methods 2.1', '2.2', '2.3', '2.4', 'Figure 1'], 'Key design elements are presented in Methods 2.1-2.4 and summarized in Figure 1; the data sources for every phase are listed in Methods 2.2 and 2.3, with the outcome endpoint definitions tabulated in Supplementary Table S17. Sub-items a-e follow.'), 7: (['Methods 2.1', '2.2', '2.3'], '4a: Methods 2.1. Relevant dates for data collection are given in Methods 2.2 (GWAS Catalog accessions retrieved through OpenGWAS in July 2026) and Methods 2.3 (FinnGen release 11 downloaded on 16 July 2026); recruitment and follow-up periods of the two source cohorts are not restated in this article.'), 8: (['Methods 2.2', '2.3', '2.6', 'Results 3.1'], '4b: Methods 2.2 and 2.3 (exposure cohort of 3,757 Sardinian participants with accession-level sample sizes of 1,244 to 3,669, and FinnGen release 11 case and control counts of 12,371/342,690 for cardiac conduction disorders and 6,935/342,690 for atrioventricular block; outcome case and control definitions, including the contributing diagnostic codes, are referenced to the FinnGen endpoint browser and summarized in Supplementary Table S17). Power is reported in Methods 2.6 and Results 3.1 and in Supplementary Tables S9, S10 and S18 as a selection-conditioned upper bound rather than achieved power; the manuscript does not state that a power or sample size calculation was carried out prior to the main analysis.'), 9: (['Methods 2.4'], '4c: Methods 2.4.'), 10: (['Methods 2.2', '2.3'], '4d: Methods 2.2, 2.3 (outcome case and control definitions, including the contributing diagnostic codes, are referenced to the FinnGen endpoint browser and summarized in Supplementary Table S17).'), 11: (['Methods 2.1', 'Ethics approval'], '4e: Methods 2.1 and the Ethics approval statement.'), 12: (['Methods 2.1'], 'Methods 2.1 (relevance, independence and exclusion-restriction assumptions, followed by the further identifying conditions - linearity and effect homogeneity, or a local interpretation in their absence - under which the ratio estimate recovers a causal effect)'), 13: (['Methods 2.2', '2.4', '2.5', '2.6', '2.8'], 'Statistical methods are described in Methods 2.5 (estimators and diagnostics), 2.6 (multiple testing, power and the instrument-threshold sensitivity analysis) and 2.8 (post-hoc rare-variant diagnostics), with variable handling in Methods 2.2 and 2.4. Sub-items a-e follow.'), 14: (['Methods 2.2'], '6a: Methods 2.2 (traits inverse-normal transformed in the source GWAS; estimates per 1 standard deviation).'), 15: (['Methods 2.4', '2.8'], '6b: Methods 2.4, and Methods 2.8 for the post-hoc minor-allele-frequency filter.'), 16: (['Methods 2.2', '2.5'], '6c: Methods 2.5. Covariate adjustment on the exposure side (sex, age and age squared, applied in the source GWAS) is stated in Methods 2.2; the covariate set used in the FinnGen outcome GWAS is not restated in this article, so the two samples are not documented as sharing an identical adjustment set.'), 17: (['Methods 2.4'], '6d: Methods 2.4 (variants absent from the outcome dataset were dropped; no linkage-disequilibrium proxies were substituted).'), 18: (['Methods 2.6'], '6e: Methods 2.6.'), 19: (['Methods 2.4', '2.5', '2.6', '2.8'], "Methods 2.4 (F-statistic filtering, winner's curse), 2.5 (MR-Egger intercept, Cochran's Q, MR-PRESSO, leave-one-out; MR-PRESSO computed with the MRPRESSO package and used as a global heterogeneity diagnostic only), 2.6 (Steiger directionality), 2.8 (post-hoc variant-level diagnostics)"), 20: (['Methods 2.5', '2.6', '2.7', '2.8'], 'Methods 2.5, 2.6 (reverse-direction MR and multiple testing), 2.7 (targeted re-analysis), 2.8 (post-hoc rare-variant diagnostics and minor-allele-frequency sensitivity analysis), the per-instrument credibility filter, component sub-endpoint screen and atrial-fibrillation negative control described in Methods 2.6 and reported in Supplementary Tables S21, S23 and S22, and the genome-wide instrument-threshold sensitivity analysis in Methods 2.6'), 22: (['Methods 2.4', '2.5', '2.6', 'Data availability'], "9a: Methods 2.6 states that analyses used R 4.6.1, the MendelianRandomization package and ieugwasr (version 1.1.0, reference 32). Settings: Methods 2.5 - the primary estimate used inverse-variance weighting from the MendelianRandomization package, which fits fixed-effect IVW with fewer than four variants and random-effects IVW otherwise, with the Wald ratio for single-variant analyses; MR-PRESSO was computed with the MRPRESSO package using 3,000 parametric simulations; Cochran's Q used first-order weights, with the modified second-order weights of Bowden et al examined in sensitivity analysis. Methods 2.4 - linkage-disequilibrium clumping at r2 < .001 within 10 Mb using the 1000 Genomes European reference panel, and exclusion of instruments with F <= 10. Methods 2.6 - Benjamini-Hochberg false-discovery-rate control applied separately within each outcome across 731 phenotypes, and study-wide power at alpha = .05/731. Version numbers for the MendelianRandomization and MRPRESSO packages are not printed in the article; complete package versions are recorded in the session information provided as Supplemental Digital Content and in the repository given under Data availability."), 23: (['Methods 2.1', '2.8', 'Discussion'], '9b: Methods 2.1 states that the analysis was not prospectively registered. Methods 2.8 and the sixth limitation identify the rare-variant diagnostics as post-hoc. This completed STROBE-MR checklist is provided as Supplemental Digital Content.'), 26: (['Figure 1', 'Methods 2.4', 'Results 3.1', '3.2'], '10a: Figure 1 (study workflow); Methods 2.4 and Results 3.1-3.2 (instrument and phenotype counts retained at each threshold and reasons for exclusion, including the 124 phenotypes not estimable at the genome-wide threshold); Supplementary Tables S11 and S12.'), 27: (['Methods 2.2', '2.3', 'Results 3.1', '3.2'], '10b: Methods 2.2 and 2.3 (exposure trait classes and sample sizes; outcome case and control counts); Results 3.1 and 3.2 (instrument counts and their distributions under each threshold); Supplementary Tables S6 and S18. Only GWAS summary statistics were used, so individual-level phenotypic means, standard deviations and proportions are not available; exposure traits were inverse-normal transformed in the source GWAS (Methods 2.2).'), 28: (['Methods 2.1', '2.5', 'Results 3.4'], '10c: Methods 2.1 (neither source dataset is a meta-analysis of separately published studies, so no across-study heterogeneity assessment applies; instrument-level heterogeneity is reported in Methods 2.5 and Results 3.4).'), 29: (['Methods 2.1', '2.2', '2.3', '2.7'], '10d(i): Methods 2.1, 2.2 and 2.3 (the exposure and outcome samples are drawn from two different European founder populations, Sardinians and Finns; because Sardinia and Finland have population-specific allele frequencies and linkage-disequilibrium patterns, cross-population transportability of the variant-exposure associations is treated as an interpretive caveat rather than demonstrated similarity). 10d(ii): Methods 2.1 states that there is no participant overlap between the exposure and outcome samples. Methods 2.7 notes separately that FinnGen release 11 includes the release 2 participants of the previously reported lymphocyte-count analysis, so that targeted comparison is a re-analysis in an expanded release rather than an independent replication.'), 31: (['Results 3.3', 'Supplemental Digital Content'], '11a: Supplementary Table S6; variant-level variant-exposure and variant-outcome estimates for the five genome-wide-threshold signals are additionally reported in Results 3.3 and Supplementary Table S14.'), 32: (['Results 3.1-3.4', 'Table 1'], '11b: Results 3.1-3.4; Table 1; Supplementary Tables S1, S2, S11, S13.'), 33: ([], '11c: not applicable, because the primary screen returned no false-discovery-rate-significant association and therefore no relative risk to translate into absolute risk.'), 34: (['Figure 2', 'Figure 3'], '11d: Figures 2 and 3; Supplementary Figures S1 and S2.'), 36: (['Results 3.1-3.4'], "12a: Results 3.1, 3.2, 3.3, 3.4; Results 3.1 (phenotype-wide Cochran's Q); Supplementary Tables S4, S8, S14, S19 and S20."), 37: (['Methods 2.5', 'Results 3.1-3.4'], "12b: Results 3.1 (phenotype-wide Cochran's Q under first-order and modified second-order weights), 3.2, 3.3, 3.4 (Cochran's Q, MR-Egger intercept); Methods 2.5 (I-squared GX); Supplementary Tables S4, S8, S14, S19 and S20."), 39: (['Results 3.1-3.4'], '13a: Results 3.1, 3.2, 3.3, 3.4; Supplementary Tables S4, S11, S12, S14, S15, S21 and S23.'), 40: (['Results 3.2-3.4'], '13b: Results 3.2-3.4.'), 41: (['Results 3.3', '3.4'], '13c: Results 3.4 (reverse-direction MR and Steiger filtering); the scope of that analysis is stated at the end of Results 3.3.'), 42: (['Introduction'], '13d: observational associations are summarized in the Introduction, but no formal quantitative comparison with non-MR estimates was performed.'), 43: (['Methods 2.5', 'Results 3.3', '3.4'], '13e: Supplementary Figure S2 (leave-one-out plots) and Supplementary Figure S1 (forest plot); leave-one-out estimates are tabulated in Supplementary Table S7 (Methods 2.5), and the leave-one-out results for the genome-wide-threshold signals are reported in Results 3.3 and the stability of leave-one-out estimates for the five sensitivity-stable phenotypes in Results 3.4.'), 45: (['Discussion', 'Conclusion'], 'Discussion, paragraphs 1-2; Conclusion'), 46: (['Methods 2.1', '2.4', 'Results 3.1-3.3', 'Discussion'], "Discussion, paragraph 10 (limitations First to Sixth); Results 3.1 and Discussion paragraph 3 (power and detectable effect sizes); Supplementary Table S18 (phenotype-level instrument strength and power). Other potential sources of bias: Methods 2.1 (no participant overlap between samples) and 2.4 (winner's curse, which would make the confidence intervals too narrow); Results 3.2 and 3.3 and Supplementary Tables S14-S15 (weight carried by a single rare-variant instrument)."), 48: (['Discussion'], '16a: Discussion, paragraphs 2-10.'), 49: (['Discussion'], '16b: Discussion, paragraphs 5 and 8 (tissue-local and stage-specific mechanisms; gene-environment equivalence).'), 50: (['Discussion', 'Conclusion'], '16c: Discussion, paragraphs 1 and 8 (clinical prioritization; gene-intervention equivalence); Conclusion.'), 51: (['Methods 2.1', 'Discussion'], 'Methods 2.1; Discussion, paragraph 10 (third limitation, founder-population transportability) and the closing sentence of paragraph 10'), 53: (['Funding'], 'Funding'), 54: (['Data availability'], 'Data availability; Supplemental Digital Content'), 55: (['Conflicts of interest'], 'Conflicts of interest')}
+
+
 def build_strobe() -> None:
-    items = [
-        ("Title and abstract", "1",
-         "Indicate Mendelian randomization (MR) as the study's design in the title and/or the abstract if that is a main purpose of the study.",
-         "Title; Abstract (title and Methods paragraph)"),
-        ("Introduction", "2",
-         "Explain the scientific background and rationale for the reported study. What is the exposure? Is a causal effect plausible? Why use MR?",
-         "Introduction, paragraphs 1-3"),
-        ("Introduction", "3",
-         "State specific objectives clearly, including prespecified causal hypotheses (if any).",
-         "Introduction, paragraphs 4-6"),
-        ("Methods", "4",
-         "Study design and data sources. (4a) Study design and underlying population. (4b) Eligibility criteria and the sources and methods of selection of participants. (4c) Measurement, quality control and selection of genetic variants. (4d) Methods of assessment and diagnostic criteria for the exposures, outcomes and other relevant variables. (4e) Ethics committee approval and participant informed consent.",
-         "4a: Methods 2.1. 4b and 4d: Methods 2.2, 2.3 (outcome case and control definitions, including the contributing diagnostic codes, are referenced to the FinnGen endpoint browser and summarized in Supplementary Table S17). 4c: Methods 2.4. 4e: Methods 2.1 and the Ethics approval statement."),
-        ("Methods", "5",
-         "Explicitly state the three core instrumental-variable assumptions (relevance, independence/exchangeability, exclusion restriction) and the conditions under which MR estimates a causal effect.",
-         "Methods 2.1 (relevance, independence and exclusion-restriction assumptions, followed by the further identifying conditions - linearity and effect homogeneity, or a local interpretation in their absence - under which the ratio estimate recovers a causal effect)"),
-        ("Methods", "6",
-         "Statistical methods, main analysis. (6a) Handling of quantitative variables (scale, units, transformation). (6b) Handling of genetic variants and, if applicable, selection of their weights. (6c) MR estimator(s) and their assumptions. (6d) Handling of missing data. (6e) Multiple testing / multiplicity.",
-         "6a: Methods 2.2 (traits inverse-normal transformed in the source GWAS; estimates per 1 standard deviation). 6b: Methods 2.4, and Methods 2.8 for the post-hoc minor-allele-frequency filter. 6c: Methods 2.5. 6d: Methods 2.4 (variants absent from the outcome dataset were dropped; no linkage-disequilibrium proxies were substituted). 6e: Methods 2.6."),
-        ("Methods", "7",
-         "Describe any methods or prior knowledge used to assess the instrumental-variable assumptions or to justify their validity.",
-         "Methods 2.4 (F-statistic filtering, winner's curse), 2.5 (MR-Egger intercept, Cochran's Q, MR-PRESSO, leave-one-out; MR-PRESSO computed with the MRPRESSO package and used as a global heterogeneity diagnostic only), 2.6 (Steiger directionality), 2.8 (post-hoc variant-level diagnostics)"),
-        ("Methods", "8",
-         "Describe any sensitivity analyses or additional analyses performed (for example, comparison of different MR estimators, MR-Egger, weighted median, MR-PRESSO, assessment of sample overlap, negative controls).",
-         "Methods 2.5, 2.6 (reverse-direction MR and multiple testing), 2.7 (targeted re-analysis), 2.8 (post-hoc rare-variant diagnostics and minor-allele-frequency sensitivity analysis), the per-instrument credibility filter, component sub-endpoint screen and atrial-fibrillation negative control described in Methods 2.6 and reported in Supplementary Tables S21, S23 and S22, and the genome-wide instrument-threshold sensitivity analysis in Methods 2.6"),
-        ("Results", "9",
-         "Descriptive data. (9a) Numbers at each stage of the study and reasons for exclusion; summary statistics for the genetic variants, the exposure and the outcome. (9b) If the data sources include meta-analyses of previous studies, assessments of heterogeneity across those studies. (9c) Data sources, participants, and whether exposure and outcome data come from the same or different (non-overlapping) samples.",
-         "9a: Figure 1; Methods 2.3, 2.4; Results 3.2; Supplementary Tables S6 and S11. 9b: Methods 2.1 (neither source dataset is a meta-analysis of separately published studies, so no across-study heterogeneity assessment applies; instrument-level heterogeneity is reported in Methods 2.5 and Results 3.4). 9c: Methods 2.1, 2.2, 2.3."),
-        ("Results", "10",
-         "Main results. (10a) Associations between genetic variant and exposure, and between genetic variant and outcome. (10b) MR estimates of the exposure-outcome association with measures of uncertainty, on an interpretable scale. (10c) Where relevant, translation of relative into absolute risk. (10d) Plots to visualise results.",
-         "10a: Supplementary Table S6. 10b: Results 3.1-3.4; Table 1; Supplementary Tables S1, S2, S11, S13. 10d: Figures 2 and 3; Supplementary Figures S1 and S2. 10c: not applicable, because the primary screen returned no false-discovery-rate-significant association and therefore no relative risk to translate into absolute risk."),
-        ("Results", "11",
-         "Assessment of assumptions. (11a) Report the assessment of the validity of the assumptions. (11b) Report any additional statistics, such as assessments of heterogeneity across instruments (I-squared or Cochran's Q).",
-         "11a: Results 3.1, 3.2, 3.3, 3.4; Results 3.1 (phenotype-wide Cochran's Q); Supplementary Tables S4, S8, S14, S19 and S20. 11b: Results 3.1 (phenotype-wide Cochran's Q under first-order and modified second-order weights), 3.2, 3.3, 3.4 (Cochran's Q, MR-Egger intercept); Methods 2.5 (I-squared GX); Results 3.1 (phenotype-wide Cochran's Q); Supplementary Tables S4, S8, S14, S19 and S20."),
-        ("Results", "12",
-         "Sensitivity analyses and additional analyses. (12a) Robustness of the main results to violations of the assumptions. (12b) Assessment of the direction of the causal effect. (12c) Additional analyses. (12d) Where relevant, comparison with estimates from non-MR analyses. (12e) Indications of any other potential sources of bias, such as selection bias, sample overlap or winner's curse.",
-         "12a: Results 3.1, 3.2, 3.3, 3.4; Supplementary Tables S4, S11, S12, S14, S15, S21 and S23. 12b: Results 3.4 (reverse-direction MR and Steiger filtering); the scope of that analysis is stated at the end of Results 3.2. 12c: Results 3.2-3.4. 12e: Methods 2.1 (no participant overlap between samples) and 2.4 (winner's curse); Results 3.2 and 3.3 and Supplementary Tables S14-S15 (weight carried by a single rare-variant instrument); Discussion, limitations. 12d: observational associations are summarized in the Introduction, but no formal quantitative comparison with non-MR estimates was performed."),
-        ("Discussion", "13",
-         "Summarise key results with reference to the study objectives.",
-         "Discussion, paragraphs 1-2; Conclusion"),
-        ("Discussion", "14",
-         "Discuss limitations, taking into account the validity of the instrumental-variable assumptions, other sources of potential bias, and imprecision. Discuss both the direction and the magnitude of any potential bias.",
-         "Discussion, paragraph 10 (limitations First to Sixth); Results 3.1 and Discussion paragraph 3 (power and detectable effect sizes); Supplementary Table S18 (phenotype-level instrument strength and power)"),
-        ("Discussion", "15",
-         "Interpretation. (15a) A cautious overall interpretation in the context of the limitations and in comparison with other studies. (15b) Underlying biological mechanisms that could drive a potential causal effect, and whether the gene-environment equivalence assumption is reasonable. (15c) Whether the results have clinical or public-policy relevance, and to what extent they inform effect sizes of possible interventions.",
-         "15a: Discussion, paragraphs 2-10. 15b: Discussion, paragraphs 5 and 8 (tissue-local and stage-specific mechanisms; gene-environment equivalence). 15c: Discussion, paragraphs 1 and 8 (clinical prioritization; gene-intervention equivalence); Conclusion."),
-        ("Discussion", "16",
-         "Discuss the generalizability (external validity) of the results, including the relevance of the population(s) and ancestry to which the findings apply.",
-         "Methods 2.1; Discussion, paragraph 10 (third limitation, founder-population transportability) and the closing sentence of paragraph 10"),
-        ("Other information", "17",
-         "Describe sources of funding and the role of funders in the present study and, if applicable, for the databases and original studies on which the present study is based.",
-         "Funding"),
-        ("Other information", "18",
-         "Provide the data used to perform all analyses, or report where and how the data can be accessed, and reference these sources. Provide the statistical code needed to reproduce the results, or report where and how it can be accessed.",
-         "Data availability; Supplemental Digital Content"),
-        ("Other information", "19",
-         "All authors should declare all potential conflicts of interest.",
-         "Conflicts of interest"),
-        ("Other information", "20",
-         "Where applicable, report other study registration, protocol availability, or supplementary reporting such as a completed STROBE-MR checklist.",
-         "Methods 2.1 states that the analysis was not prospectively registered and that no protocol was deposited in a public registry. Methods 2.8 and the sixth limitation identify the rare-variant diagnostics as post-hoc. This completed STROBE-MR checklist is provided as Supplemental Digital Content."),
-    ]
-    doc = setup_document()
-    add_heading(doc, "STROBE-MR Checklist")
-    add_paragraph(doc, "Manuscript: " + TITLE)
-    add_paragraph(doc, "Reporting follows the STROBE-MR guideline, which extends STROBE to Mendelian randomization studies (Skrivankova VW, Richmond RC, Woolf BAR, et al. JAMA 2021;326:1614-1621). The 20 items below follow the section grouping of the STROBE-MR statement. Page numbers are to be completed after typesetting.")
-    table = doc.add_table(rows=1, cols=4)
-    table.style = "Table Grid"
-    for i, heading in enumerate(["Section", "Item", "Checklist item", "Reported in (section)"]):
-        run = table.rows[0].cells[i].paragraphs[0].add_run(heading)
-        run.bold = True
-    last_section = None
-    for section, num, item, where in items:
-        cells = table.add_row().cells
-        cells[0].text = section if section != last_section else ""
-        last_section = section
-        cells[1].text = num
-        cells[2].text = item
-        cells[3].text = where
+    """Fill the journal's own STROBE-MR template rather than a home-made table.
+
+    Medicine supplies a five-column template (Item No. / Section / Checklist item /
+    Page No. / Relevant text from manuscript) on Editorial Manager, and it is CC BY 3.0
+    material from the Equator Network, so the template file is used as the base document
+    and only the two author columns are written. That also keeps the official item
+    numbering: our earlier home-made table numbered the items 1-20 without the official
+    item 9 (software and pre-registration), so everything from item 9 onward was offset
+    by one against the published checklist.
+
+    The Page No. column carries manuscript section references rather than page numbers.
+    Word pagination is renderer-dependent and shifts under the journal's own template, so
+    a section pointer stays correct where a page number would not. Replace with page
+    numbers in Word before submission if the editor asks for them.
+    """
+    doc = Document(str(STROBE_TEMPLATE))
+    table = doc.tables[0]
+    if len(table.rows) != 56 or len(table.columns) != 5:
+        raise RuntimeError(
+            f"STROBE-MR template changed shape ({len(table.rows)}x{len(table.columns)}, "
+            "expected 56x5); re-map STROBE_FILL against the new template before building."
+        )
+    for row_index, (sections, text) in STROBE_FILL.items():
+        cells = table.rows[row_index].cells
+        cells[3].text = "; ".join(sections)
+        cells[4].text = text
+        for cell in (cells[3], cells[4]):
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run.font.size = Pt(8)
+    SUPP.mkdir(parents=True, exist_ok=True)
     doc.save(SUPP / "STROBE-MR_checklist.docx")
 
 
 def main() -> None:
     build_manuscript()
+    build_table1()
     build_cover_letter()
     build_strobe()
     print("Generated Medicine submission documents in", ROOT)

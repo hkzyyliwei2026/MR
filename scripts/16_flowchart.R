@@ -21,8 +21,10 @@ draw <- function() {
   GREY <- "#4F4F4F"; GRID <- "#E8ECEF"
   par(mar = c(0.8, 1.0, 1.2, 1.0), family = "Arial", xpd = NA)
   plot(NA, xlim = c(0, 100), ylim = c(0, 100), axes = FALSE, xlab = "", ylab = "")
-  text(50, 97, "Mendelian randomization workflow", cex = 1.05, font = 2, col = "#222222")
-  segments(10, 94, 90, 94, col = GRID, lwd = 1)
+  # The figure title and the rule beneath it are deliberately absent: Medicine requires that
+  # digital art carry no embedded figure title or legend text. The title now lives only in the
+  # Figure 1 legend in the manuscript. Panel labels and box text stay, since they are what
+  # makes the flowchart self-explanatory.
 
   box_ <- function(x, y, w, h, txt, fill = BLUE_FILL, border = BLUE, cex = 0.78, font = 1) {
     rect(x - w / 2, y - h / 2, x + w / 2, y + h / 2, col = fill, border = border, lwd = 1.4)
