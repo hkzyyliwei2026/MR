@@ -195,7 +195,7 @@ DISPLAY_TRIGGERS = {
     "Figure 1": "The workflow is summarized in Figure 1",
     "Figure 2": "found no FDR-significant association for either outcome (Figure 2)",
     "Table 1": "primary-screen result (Table 1)",
-    "Figure 3": "(Figure 3A)",
+    "Figure 3": "(Figure 3B)",
 }
 
 
@@ -224,7 +224,7 @@ def add_body(doc: Document, md: str) -> None:
             emitted.add("Figure 2")
             add_figure_legend(
                 doc,
-                "Figure 2. Volcano plots from the primary P < 1 x 10^-5 instrument-threshold analysis of 731 immune-cell phenotypes and cardiac conduction disorders or atrioventricular block. No phenotype survived false-discovery-rate correction in the primary screen. Green labels identify five nominally associated phenotypes that met the descriptive sensitivity criteria specified in Section 2.5; none was FDR-significant. Gold diamonds mark the genome-wide-threshold FDR signals, the five phenotype-level signals identified only under the stricter P < 5 x 10^-8 threshold. The two sets are non-overlapping and share no phenotype. The genome-wide-threshold FDR signals are plotted in both panels to show where they fall in the primary screen; they reached FDR significance for cardiac conduction disorders only.",
+                "Figure 2. Volcano plots from the primary P < 1 x 10^-5 instrument-threshold analysis of 731 immune-cell phenotypes and cardiac conduction disorders or atrioventricular block. No phenotype survived false-discovery-rate correction in the primary screen. Green labels identify the five sensitivity-stable phenotypes defined in Section 2.5; none was FDR-significant. Gold diamonds mark the genome-wide-threshold FDR signals, the five phenotype-level signals identified only under the stricter P < 5 x 10^-8 threshold. The two sets are non-overlapping and share no phenotype. The genome-wide-threshold FDR signals are plotted in both panels to show where they fall in the primary screen; they reached FDR significance for cardiac conduction disorders only.",
             )
         if DISPLAY_TRIGGERS["Table 1"] in line:
             emitted.add("Table 1")

@@ -183,7 +183,7 @@ S9 = PW.rename(columns={
     "minDetectableOR_nominal": "Min detectable OR (nominal α=0.05)",
     "minDetectableOR_studywide": "Min detectable OR (study-wide α=0.05/731)"})
 
-# --- S10 realised power of the five nominal associations meeting the descriptive sensitivity criteria at their observed effects ---
+# --- S10 realised power of the five sensitivity-stable phenotypes at their observed effects ---
 S10 = PWH.rename(columns={
     "trait": "Immune phenotype", "R2_exp_pct": "R2 exposure (%)", "OR": "Observed OR",
     "power_nominal": "Power (nominal α=0.05)", "power_studywide": "Power (study-wide α=0.05/731)"})
@@ -455,19 +455,19 @@ SHEETS = [
     ("S3 Concordant", S3,
      "Supplementary Table S3. Fifteen immunophenotypes nominally significant (P<0.05) and directionally concordant across both outcomes (source of Section 3.2)."),
     ("S4 Sensitivity", S4,
-     "Supplementary Table S4. Sensitivity analyses (IVW, weighted median, MR-Egger, MR-Egger I2_GX/NOME, and Cochran's Q), instrument strength (mean/min F), and variance explained (R2, %) for the 15 concordant immunophenotypes. robust=TRUE marks the five concordant phenotypes that also met the sensitivity-stability criteria (Section 3.4)."),
+     "Supplementary Table S4. Sensitivity analyses (IVW, weighted median, MR-Egger, MR-Egger I2_GX/NOME, and Cochran's Q), instrument strength (mean/min F), and variance explained (R2, %) for the 15 concordant immunophenotypes. robust=TRUE marks the five sensitivity-stable phenotypes (Section 3.4)."),
     ("S5 Reverse MR", S5,
-     "Supplementary Table S5. Reverse Mendelian randomization (cardiac conduction disorders to immune phenotype) for the five nominal associations meeting the descriptive sensitivity criteria."),
+     "Supplementary Table S5. Reverse Mendelian randomization (cardiac conduction disorders to immune phenotype) for the five sensitivity-stable phenotypes."),
     ("S6 Instruments", S6,
      "Supplementary Table S6. Genetic instruments (SNPs) used for all immune cell phenotype exposures (P<1e-5, r2<0.001, F>10), with the harmonised variant-outcome associations for both endpoints alongside the variant-exposure associations. Outcome estimates are aligned to the exposure effect allele; they are blank for the 1,053 instrument records that were dropped at harmonisation (allele mismatch, ambiguous palindromic variant, or absence from the outcome file), which is why 17,675 of the 18,728 records carry outcome statistics. GWAS ID should be used with phenotype label as the unique exposure key because two phenotype labels recur across GWAS accessions."),
     ("S7 Leave-one-out", S7,
      "Supplementary Table S7. Leave-one-out IVW estimates for the 15 cross-outcome concordant immunophenotypes for the primary outcome."),
     ("S8 PRESSO-Steiger", S8,
-     "Supplementary Table S8. MR-PRESSO global test, outlier fields reported for transparency only, and Steiger directionality test (exposure vs outcome variance explained) for the five nominal associations meeting the descriptive sensitivity criteria and primary outcome."),
+     "Supplementary Table S8. MR-PRESSO global test, outlier fields reported for transparency only, and Steiger directionality test (exposure vs outcome variance explained) for the five sensitivity-stable phenotypes and primary outcome."),
     ("S9 Power grid", S9,
      "Supplementary Table S9. Statistical power: minimum detectable odds ratio at 80% power as a function of instrument-explained variance (R²), for each outcome, at nominal (α=0.05) and study-wide (α=0.05/731) significance (Brion 2013 approximation)."),
     ("S10 Power per-hit", S10,
-     "Supplementary Table S10. Statistical power to detect the observed effect of each of the five concordant phenotypes (Section 3.4; primary outcome), given its instrument R² and observed OR, at nominal and study-wide significance."),
+     "Supplementary Table S10. Statistical power to detect the observed effect of each of the five sensitivity-stable phenotypes (Section 3.4; primary outcome), given its instrument R² and observed OR, at nominal and study-wide significance."),
     ("S11 Threshold", S11,
      "Supplementary Table S11. Instrument-threshold sensitivity analysis. The primary analysis used exposure instruments selected at P<1e-5. The sensitivity analysis retained only genome-wide significant exposure instruments (P<5e-8) before harmonization and F>10 filtering."),
     ("S12 Threshold crosswalk", S12,
