@@ -27,20 +27,46 @@ DEFAULT_UPLOAD = "/Users/primihub/Desktop/MR_github_upload"
 
 # Everything under the upload tree ships except build artefacts and the raw GWAS
 # downloads, which are gigabytes and are already public at their original sources.
-SKIP_DIRS = {"__pycache__", ".git", ".ipynb_checkpoints", "data"}
+# The code archive freezes the analysis code at submission time, so it carries only what is
+# needed to read and re-run it: the scripts, the session information, the README, and the two
+# small derived inputs that the figure and document builders read. Result tables and figures are
+# deliberately excluded - the results are uploaded separately as Supplementary Tables S1-S23, and
+# the raw GWAS summary statistics are public at their original sources and far too large to ship.
+# This is an allowlist rather than a skip list, so a large file added to the repository later
+# cannot silently inflate the archive past the journal's 10 MB per-file limit.
+ARCHIVE_DIRS = ("scripts", "derived")
+ARCHIVE_FILES = ("README.md", "sessionInfo.txt")
+SKIP_DIRS = {"__pycache__", ".git", ".ipynb_checkpoints"}
 SKIP_FILES = {".DS_Store"}
-# TIFFs are upload artefacts, not analysis code. 16_flowchart.R's tiff() device also ignores its
-# own compression setting and writes an 80 MB uncompressed RGBA file, which alone would push the
-# archive against the journal's 10 MB per-file limit. The submission TIFFs are rebuilt from the
-# PNGs by build_figures(), so nothing is lost by excluding them here.
+# 16_flowchart.R's tiff device ignores its own compression setting and writes an 80 MB
+# uncompressed file; the submission TIFFs are built from the PNGs by build_figures().
 SKIP_SUFFIXES = (".tif", ".tiff")
-# Paths excluded because the archive would otherwise carry the same bytes twice, or carry a
-# stale rename of a file the plotting scripts regenerate under their own name. The workbook is
-# uploaded separately as Supplemental Digital Content and is rebuilt from results/tables by
-# make_supplementary.py, so dropping it costs no reproducibility.
-SKIP_RELPATHS = {
-    "supplementary/Supplementary_Tables.xlsx",
-}
+
+
+def archive_provenance(upload):
+    """Record which commit the archived code came from, so the frozen copy can be matched
+    against the repository even after the repository moves on."""
+    try:
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=upload,
+                              capture_output=True, text=True, check=True).stdout.strip()
+        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=upload,
+                               capture_output=True, text=True, check=True).stdout.strip()
+    except Exception:
+        return "Source repository: https://github.com/hkzyyliwei2026/MR\nCommit: not available\n"
+    state = "with uncommitted local changes" if dirty else "clean working tree"
+    return (
+        "This archive is the analysis code as submitted, frozen at the commit below.\n"
+        "The repository may have moved on since; use this copy to reproduce the article.\n\n"
+        "Source repository: https://github.com/hkzyyliwei2026/MR\n"
+        f"Commit: {head}\n"
+        f"Working tree at archive time: {state}\n\n"
+        "Contents: analysis and plotting scripts (scripts/), R session information\n"
+        "(sessionInfo.txt), the repository README, and the two derived inputs read by the\n"
+        "figure and document builders (derived/).\n\n"
+        "Not included: result tables and figures, which are uploaded separately as\n"
+        "Supplementary Tables S1-S23 and Supplementary Figures S1-S2; and the GWAS summary\n"
+        "statistics, which are public at the GWAS Catalog and FinnGen and are too large to ship.\n"
+    )
 
 
 def run(script, cwd):
@@ -56,20 +82,29 @@ def run(script, cwd):
 
 def build_zip(upload, out):
     # Deterministic member order and a fixed timestamp, so an unchanged tree produces an
-    # archive that differs only where the content differs. The one exception is the workbook:
-    # openpyxl does not write reproducible bytes, so it is compared cell-wise, not by hash.
-    members, dropped = [], []
-    for root, dirs, files in os.walk(upload):
-        dirs[:] = sorted(d for d in dirs if d not in SKIP_DIRS)
-        for f in sorted(files):
-            if f in SKIP_FILES or f.lower().endswith(SKIP_SUFFIXES):
-                continue
-            full = os.path.join(root, f)
-            rel = os.path.relpath(full, upload).replace(os.sep, "/")
-            if rel in SKIP_RELPATHS:
-                dropped.append((rel, os.path.getsize(full)))
-                continue
-            members.append((full, rel))
+    # archive that differs only where the content differs.
+    members = []
+    for name in ARCHIVE_FILES:
+        full = os.path.join(upload, name)
+        if os.path.exists(full):
+            members.append((full, name))
+    for d in ARCHIVE_DIRS:
+        base = os.path.join(upload, d)
+        for root, dirs, files in os.walk(base):
+            dirs[:] = sorted(x for x in dirs if x not in SKIP_DIRS)
+            for f in sorted(files):
+                if f in SKIP_FILES or f.lower().endswith(SKIP_SUFFIXES):
+                    continue
+                full = os.path.join(root, f)
+                members.append((full, os.path.relpath(full, upload).replace(os.sep, "/")))
+    members.sort(key=lambda m: m[1])
+
+    skipped = sorted(
+        e.name for e in os.scandir(upload)
+        if not e.name.startswith(".")
+        and e.name not in ARCHIVE_DIRS
+        and e.name not in ARCHIVE_FILES
+    )
     tmp = out + ".tmp"
     with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
         for full, rel in members:
@@ -78,16 +113,16 @@ def build_zip(upload, out):
             info.external_attr = 0o644 << 16
             with open(full, "rb") as fh:
                 z.writestr(info, fh.read())
+        prov = zipfile.ZipInfo("Supplementary_Code/ARCHIVE_INFO.txt", date_time=(2026, 1, 1, 0, 0, 0))
+        prov.compress_type = zipfile.ZIP_DEFLATED
+        prov.external_attr = 0o644 << 16
+        z.writestr(prov, archive_provenance(upload))
     os.replace(tmp, out)
-    for rel, size in dropped:
-        print(f"    excluded from archive: {rel} ({size/1e6:.2f} MB)")
-    return len(members)
+    if skipped:
+        print(f"    not archived (uploaded separately or public at source): {', '.join(skipped)}")
+    return len(members) + 1
 
 
-# Medicine accepts TIF, EPS, PPT or DOC for figures, and requires grayscale or RGB. The
-# plotting scripts emit RGBA PNG, so the upload copies are converted here rather than by hand.
-# LZW keeps 600-dpi files near 1.5 MB, well inside the 10 MB per-file limit, so the figures
-# are not downsampled.
 # Figures flow from the plotting scripts' output directory, not from hand-placed copies in the
 # submission folder, so a re-run of a plotting script always reaches the upload. Medicine accepts
 # TIF, EPS, PPT or DOC and requires grayscale or RGB; the scripts emit RGBA PNG, so the upload
@@ -155,9 +190,6 @@ def main():
 
     for name, size in build_figures(upload):
         print(f"--- {name} ({size/1e6:.2f} MB, TIFF/RGB)")
-
-    n = build_zip(upload, os.path.join(SUB, "supplemental", "Supplementary_Code.zip"))
-    print(f"--- code archive rebuilt ({n} files)")
 
     run(os.path.join(SUB, "source", "build_medicine_docs.py"), SUB)
     print("package rebuilt")
