@@ -370,7 +370,7 @@ if os.path.exists(S13_PATH):
         "EG_int": "MR-Egger intercept", "EG_int_P": "MR-Egger intercept P",
         "Q": "Cochran's Q", "Q_df": "Q df", "Q_P": "Q P"})
 else:
-    S13 = pd.DataFrame({"Outcome (FinnGen R11)": ["S13_chen_reanalysis.csv was not found; run scripts/22_chen_replication.R."]})
+    S13 = pd.DataFrame({"Outcome (FinnGen R11)": ["S13_chen_reanalysis.csv was not found; run scripts/22_chen_reanalysis.R."]})
 
 # --- S14 / S15 / S16 post-hoc rare-variant diagnostics, built from the CSVs written by
 # 23_rare_variant_diagnostics.py. These were previously carried over from a pre-existing
@@ -473,7 +473,7 @@ SHEETS = [
     ("S12 Threshold crosswalk", S12,
      "Supplementary Table S12. Phenotype-level cross-threshold comparison for phenotype records analyzable under both instrument thresholds (607 per outcome). For each immune phenotype and outcome, the GWAS ID, number of instruments, odds ratio with 95% confidence interval, P value, and FDR under the primary (P<1e-5) and genome-wide (P<5e-8) thresholds are shown side by side. These are the underlying data for Section 3.5 and Figure 3 and are sorted by P<5e-8."),
     ("S13 Chen re-analysis", S13,
-     "Supplementary Table S13. Targeted re-analysis of the previously reported association between genetically predicted lymphocyte count and atrioventricular block (Chen Y et al, Front Immunol 2023;14:1041591), which used Blood Cell Consortium exposures and FinnGen release 2. Instruments here were taken from the same exposure source (GWAS Catalog GCST90002316; Chen MH et al, Cell 2020; 524,923 European-ancestry participants), clumped at r2<0.001 within 10 Mb against the 1000 Genomes European panel and filtered at F>10, and tested against FinnGen release 11. Release 11 contains the release 2 participants, so this is a re-analysis in an expanded release of the same cohort and not an independent replication; the two sets of estimates are not independent."),
+     "Supplementary Table S13. Targeted re-analysis of the previously reported association between genetically predicted lymphocyte count and atrioventricular block (Chen Y et al, Front Immunol 2023;14:1041591), which used Blood Cell Consortium exposures and FinnGen release 2. Instruments here were taken from the same exposure source (GWAS Catalog GCST90002316; Chen MH et al, Cell 2020; 524,923 European-ancestry participants), clumped at r2<0.001 within 10 Mb against the 1000 Genomes European panel and filtered at F>10, and tested against FinnGen release 11. Release 11 contains the release 2 participants, so this is a re-analysis in an expanded release of the same cohort and not an independent validation; the two sets of estimates are not independent."),
     *POSTHOC_SHEETS,
     ("S17 Endpoint definitions", S17,
      "Supplementary Table S17. Definitions of the two FinnGen release 11 outcome endpoints. Case counts for the bundle-branch-block component endpoints are reported in Supplementary Table S23; a mutually exclusive decomposition of I9_CONDUCTIO into component endpoints remains unavailable."),
@@ -534,14 +534,11 @@ for name, df, caption in SHEETS:
 out = os.path.join(PKG, "Supplementary_Tables.xlsx")
 
 # Carry over any sheets that this script does not build (for example S13, which is
-# compiled from the output of 22_chen_replication.R), so that re-running does not
+# compiled from the output of 22_chen_reanalysis.R), so that re-running does not
 # silently drop them. Captions and titles of carried-over sheets are declared here rather
 # than edited into the workbook by hand, so that wording stays under version control.
-CARRIED_RENAME = {"S13 Chen replication": "S13 Chen re-analysis"}
-CARRIED_CAPTION_FIX = {
-    "S13": ("Supplementary Table S13. Targeted replication",
-            "Supplementary Table S13. Targeted re-analysis"),
-}
+CARRIED_RENAME = {}
+CARRIED_CAPTION_FIX = {}
 if os.path.exists(out):
     from openpyxl import load_workbook
     prev = load_workbook(out)

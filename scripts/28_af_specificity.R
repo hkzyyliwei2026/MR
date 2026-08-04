@@ -8,7 +8,7 @@
 # the same lymphocyte-count instrument set against atrial fibrillation itself: if the association
 # with atrial fibrillation is of similar size or larger, the conduction finding is not specific.
 #
-# The exposure instruments are those written by 22_chen_replication.R after clumping (the file
+# The exposure instruments are those written by 22_chen_reanalysis.R after clumping (the file
 # exposure_clumped_alleles.csv in its output directory); harmonisation follows the same rules.
 #
 # Input : <chen_outdir>/exposure_clumped_alleles.csv ; <finngen_dir>/finngen_R11_I9_AF.gz
@@ -39,7 +39,7 @@ run <- function(tag){
   setnames(OUT, c("rsids","ref","alt","beta","sebeta","pval","af_alt"),
                 c("rsids","REF","ALT","BETA_o","SE_o","P_o","EAF_o"))
   OUT <- OUT[!is.na(BETA_o) & SE_o > 0]
-  # FinnGen packs multiple rsIDs into one field; 22_chen_replication.R expands them and then
+  # FinnGen packs multiple rsIDs into one field; 22_chen_reanalysis.R expands them and then
   # deduplicates by SNP. Matching on the raw field instead loses multi-rsID rows and can also
   # duplicate a variant that appears twice, so the same expansion is applied here.
   OUT <- OUT[, .(SNP = unlist(strsplit(rsids, ","))),

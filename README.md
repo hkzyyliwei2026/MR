@@ -46,11 +46,11 @@ Immune-cell GWAS summary statistics:
 - GWAS Catalog accessions GCST90001391-GCST90002121
 - Study: Orrù et al., Nature Genetics, 2020
 
-Lymphocyte-count GWAS summary statistics (targeted replication only):
+Lymphocyte-count GWAS summary statistics (targeted re-analysis only):
 
 - GWAS Catalog accession GCST90002316
 - Study: Chen MH et al., Cell, 2020 (Blood Cell Consortium), European ancestry, 524,923 participants
-- Instruments are read from the GWAS Catalog REST endpoint by `scripts/22_chen_replication.R`
+- Instruments are read from the GWAS Catalog REST endpoint by `scripts/22_chen_reanalysis.R`
 
 Outcome GWAS summary statistics:
 
@@ -115,16 +115,16 @@ step has to come first. Earlier versions of this file listed them the other way 
 
 `scripts/21_nominal_excess_and_concordance.R` re-derives the nominal-finding counts, exploratory chance-calculation outputs, the cross-endpoint concordance summaries and the effect of the FDR correction denominator, all from the result tables above. The manuscript reports the expected nominal counts descriptively and does not use a formal binomial or hypergeometric tail-probability test, because the immunophenotypes and endpoints are correlated.
 
-`scripts/22_chen_replication.R` is run separately because it needs external inputs: it retrieves the lymphocyte-count associations for GWAS Catalog accession GCST90002316 over the network and requires a PLINK binary, a PLINK-format 1000 Genomes European reference panel and the FinnGen release 11 outcome files. It writes the targeted re-analysis results reported as Supplementary Table S13. Its output is also included in this package as `results/tables/S13_chen_reanalysis.csv`, together with the run log, so that Table S13 can be checked and rebuilt without re-running the network and PLINK steps; `scripts/make_supplementary.py` reads that file.
+`scripts/22_chen_reanalysis.R` is run separately because it needs external inputs: it retrieves the lymphocyte-count associations for GWAS Catalog accession GCST90002316 over the network and requires a PLINK binary, a PLINK-format 1000 Genomes European reference panel and the FinnGen release 11 outcome files. It writes the targeted re-analysis results reported as Supplementary Table S13. Its output is also included in this package as `results/tables/S13_chen_reanalysis.csv`, together with the run log, so that Table S13 can be checked and rebuilt without re-running the network and PLINK steps; `scripts/make_supplementary.py` reads that file.
 
 ```bash
-Rscript scripts/22_chen_replication.R <outdir> <plink> <ref_prefix> <finngen_dir>
+Rscript scripts/22_chen_reanalysis.R <outdir> <plink> <ref_prefix> <finngen_dir>
 Rscript scripts/28_af_specificity.R <outdir> <finngen_dir>     # Table S22; reuses that instrument set
-cp <outdir>/chen_replication_summary.csv results/tables/S13_chen_reanalysis.csv
-cp <outdir>/chen_replication_log.txt     results/tables/S13_chen_reanalysis_log.txt
+cp <outdir>/chen_reanalysis_summary.csv results/tables/S13_chen_reanalysis.csv
+cp <outdir>/chen_reanalysis_log.txt     results/tables/S13_chen_reanalysis_log.txt
 ```
 
-The copy step is required: `22_chen_replication.R` writes to the output directory given on the
+The copy step is required: `22_chen_reanalysis.R` writes to the output directory given on the
 command line, while `make_supplementary.py` reads the two files under `results/tables/`.
 
 By default `make_supplementary.py` writes the workbook to `supplementary/` inside this package. To write it elsewhere, set `SUBMISSION_DIR`:

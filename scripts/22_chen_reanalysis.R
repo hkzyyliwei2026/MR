@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# 22: Targeted replication of Chen Y et al (Front Immunol 2023;14:1041591)
+# 22: Targeted re-analysis of Chen Y et al (Front Immunol 2023;14:1041591)
 #
 #     Chen Y et al reported that genetically predicted lymphocyte count raises
 #     the risk of atrioventricular block (OR 1.46, 95% CI 1.11-1.93, P = .0065),
@@ -30,7 +30,7 @@
 # Outcomes : FinnGen R11 I9_AVBLOCK and I9_CONDUCTIO (not redistributed here;
 #            available from https://www.finngen.fi/en/access_results)
 #
-# Usage: Rscript 22_chen_replication.R <outdir> <plink_binary> <ref_prefix> <finngen_dir>
+# Usage: Rscript 22_chen_reanalysis.R <outdir> <plink_binary> <ref_prefix> <finngen_dir>
 # =============================================================================
 suppressMessages({ library(data.table); library(jsonlite); library(MendelianRandomization) })
 
@@ -82,6 +82,7 @@ bim <- fread(paste0(REF, ".bim"), col.names = c("CHR", "SNP", "CM", "BP", "A1", 
 ex  <- merge(ex, bim[, .(SNP, CHR, BP, A1 = toupper(A1), A2 = toupper(A2))], by = "SNP")
 ex[, OA := fifelse(EA == A1, A2, fifelse(EA == A2, A1, NA_character_))]
 ex <- ex[!is.na(OA)]
+fwrite(ex, file.path(OUTDIR, "exposure_clumped_alleles.csv"))
 say(sprintf("   with reference-panel alleles resolved: %d", nrow(ex)))
 
 # ---- 4. Outcome, harmonisation, MR ------------------------------------------
@@ -132,5 +133,5 @@ say("   participants, so the two estimates are positively correlated and a two-s
 say("   of their difference, which assumes independence, is not valid. An earlier version of")
 say("   this script reported such a test; it has been removed.")
 
-fwrite(res, file.path(OUTDIR, "chen_replication_summary.csv"))
-writeLines(log, file.path(OUTDIR, "chen_replication_log.txt"))
+fwrite(res, file.path(OUTDIR, "chen_reanalysis_summary.csv"))
+writeLines(log, file.path(OUTDIR, "chen_reanalysis_log.txt"))
